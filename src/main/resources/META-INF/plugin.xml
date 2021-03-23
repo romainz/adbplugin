@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.canal.android.adb.adb-plugin</id>
     <name>ADB +</name>
-    <vendor>Canal</vendor>
+    <vendor>Romain ZANON</vendor>
 
     <!--    <description>ADB plugin</description>-->
 
@@ -20,7 +20,7 @@
             <add-to-group group-id="MainMenu"/>
         </group>
 
-        <action id="ToggleLayoutBounds" class="ToggleLayoutBounds" text="Toggle Layout Bounds"
+        <action id="com.canal.android.adb.action.ToggleLayoutBoundsAction" class="com.canal.android.adb.action.ToggleLayoutBoundsAction" text="Toggle Layout Bounds"
                 description="Toggle layout bounds">
             <add-to-group group-id="AdbMenu"/>
         </action>
