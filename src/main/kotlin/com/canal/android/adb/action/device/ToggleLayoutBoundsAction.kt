@@ -1,7 +1,8 @@
-package com.canal.android.adb.action
+package com.canal.android.adb.action.device
 
 import com.android.ddmlib.IDevice
 import com.android.ddmlib.NullOutputReceiver
+import com.canal.android.adb.action.BaseDeviceAction
 import com.canal.android.adb.util.SingleLineReceiver
 
 class ToggleLayoutBoundsAction : BaseDeviceAction() {

@@ -1,4 +1,6 @@
-package com.canal.android.adb.action
+package com.canal.android.adb.action.connectivity
+
+import com.canal.android.adb.action.BaseShellAction
 
 class EnableWifiAction : BaseShellAction() {
 

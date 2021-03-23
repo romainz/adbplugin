@@ -19,48 +19,48 @@
             <add-to-group group-id="MainMenu"/>
 
             <group id="DeviceMenu" text="Device" popup="true">
-                <action id="com.canal.android.adb.action.ToggleLayoutBoundsAction"
-                        class="com.canal.android.adb.action.ToggleLayoutBoundsAction"
+                <action id="com.canal.android.adb.action.device.ToggleLayoutBoundsAction"
+                        class="com.canal.android.adb.action.device.ToggleLayoutBoundsAction"
                         text="Toggle Layout Bounds"
                         description="Toggle layout bounds"/>
-                <action id="com.canal.android.adb.action.StandByAction"
-                        class="com.canal.android.adb.action.StandByAction"
+                <action id="com.canal.android.adb.action.device.StandByAction"
+                        class="com.canal.android.adb.action.device.StandByAction"
                         text="Stand By"
                         description="Stand by"/>
                 <separator/>
-                <action id="com.canal.android.adb.action.EnableOfflineModeAction"
-                        class="com.canal.android.adb.action.EnableOfflineModeAction"
+                <action id="com.canal.android.adb.action.connectivity.EnableOfflineModeAction"
+                        class="com.canal.android.adb.action.connectivity.EnableOfflineModeAction"
                         text="Enable Offline Mode"
                         description="Enable offline mode"/>
-                <action id="com.canal.android.adb.action.DisableOfflineModeAction"
-                        class="com.canal.android.adb.action.DisableOfflineModeAction"
+                <action id="com.canal.android.adb.action.connectivity.DisableOfflineModeAction"
+                        class="com.canal.android.adb.action.connectivity.DisableOfflineModeAction"
                         text="Disable Offline Mode"
                         description="Disable offline mode"/>
-                <action id="com.canal.android.adb.action.EnableWifiAction"
-                        class="com.canal.android.adb.action.EnableWifiAction"
+                <action id="com.canal.android.adb.action.connectivity.EnableWifiAction"
+                        class="com.canal.android.adb.action.connectivity.EnableWifiAction"
                         text="Enable Wifi"
                         description="Enable wifi"/>
-                <action id="com.canal.android.adb.action.DisableWifiAction"
-                        class="com.canal.android.adb.action.DisableWifiAction"
+                <action id="com.canal.android.adb.action.connectivity.DisableWifiAction"
+                        class="com.canal.android.adb.action.connectivity.DisableWifiAction"
                         text="Disable Wifi"
                         description="Disable wifi"/>
-                <action id="com.canal.android.adb.action.EnableMobileDataAction"
-                        class="com.canal.android.adb.action.EnableMobileDataAction"
+                <action id="com.canal.android.adb.action.connectivity.EnableMobileDataAction"
+                        class="com.canal.android.adb.action.connectivity.EnableMobileDataAction"
                         text="Enable Mobile Data"
                         description="Enable mobile data"/>
-                <action id="com.canal.android.adb.action.DisableMobileDataAction"
-                        class="com.canal.android.adb.action.DisableMobileDataAction"
+                <action id="com.canal.android.adb.action.connectivity.DisableMobileDataAction"
+                        class="com.canal.android.adb.action.connectivity.DisableMobileDataAction"
                         text="Disable Mobile Data"
                         description="Disable mobile data"/>
             </group>
 
             <group id="DeeplinkMenu" text="Deeplink" popup="true">
-                <action id="com.canal.android.adb.action.DeeplinkSettingsAction"
-                        class="com.canal.android.adb.action.DeeplinkSettingsAction"
+                <action id="com.canal.android.adb.action.deeplink.DeeplinkSettingsAction"
+                        class="com.canal.android.adb.action.deeplink.DeeplinkSettingsAction"
                         text="Settings"
                         description="Open android settings"/>
-                <action id="com.canal.android.adb.action.DeeplinkAllAppsAction"
-                        class="com.canal.android.adb.action.DeeplinkAllAppsAction"
+                <action id="com.canal.android.adb.action.deeplink.DeeplinkAllAppsAction"
+                        class="com.canal.android.adb.action.deeplink.DeeplinkAllAppsAction"
                         text="All Apps"
                         description="Open all apps page"/>
             </group>
