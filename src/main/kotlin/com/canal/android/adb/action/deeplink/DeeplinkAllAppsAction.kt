@@ -1,4 +1,6 @@
-package com.canal.android.adb.action
+package com.canal.android.adb.action.deeplink
+
+import com.canal.android.adb.action.BaseShellAction
 
 class DeeplinkAllAppsAction : BaseShellAction() {
 
