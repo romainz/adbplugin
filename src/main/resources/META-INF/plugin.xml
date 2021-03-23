@@ -20,7 +20,7 @@
             <add-to-group group-id="MainMenu"/>
         </group>
 
-        <action id="ToggleLayoutBounds" class="ToggleLayoutBounds" text="Toggle Layout Bounds"
+        <action id="com.canal.android.adb.action.ToggleLayoutBoundsAction" class="com.canal.android.adb.action.ToggleLayoutBoundsAction" text="Toggle Layout Bounds"
                 description="Toggle layout bounds">
             <add-to-group group-id="AdbMenu"/>
         </action>
