@@ -1,0 +1,28 @@
+<idea-plugin>
+    <id>com.canal.android.adb.adb-plugin</id>
+    <name>ADB +</name>
+    <vendor>Canal</vendor>
+
+    <!--    <description>ADB plugin</description>-->
+
+    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.android</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+
+    <actions>
+        <group id="AdbMenu" text="ADB+" popup="false">
+            <add-to-group group-id="MainMenu"/>
+        </group>
+
+        <action id="ToggleLayoutBounds" class="ToggleLayoutBounds" text="Toggle Layout Bounds"
+                description="Toggle layout bounds">
+            <add-to-group group-id="AdbMenu"/>
+        </action>
+    </actions>
+</idea-plugin>
