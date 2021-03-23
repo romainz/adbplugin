@@ -65,6 +65,36 @@
                         description="Open all apps page"/>
             </group>
 
+            <group id="CanalMenu" text="Canal" popup="true">
+                <action id="com.canal.android.adb.action.canal.DebugWipeDataAction"
+                        class="com.canal.android.adb.action.canal.DebugWipeDataAction"
+                        text="Debug Wipe Data"/>
+                <action id="com.canal.android.adb.action.canal.DebugUninstallAction"
+                        class="com.canal.android.adb.action.canal.DebugUninstallAction"
+                        text="Debug Uninstall App"/>
+                <separator/>
+                <action id="com.canal.android.adb.action.canal.CharlesWipeDataAction"
+                        class="com.canal.android.adb.action.canal.CharlesWipeDataAction"
+                        text="Charles Wipe Data"/>
+                <action id="com.canal.android.adb.action.canal.CharlesUninstallAction"
+                        class="com.canal.android.adb.action.canal.CharlesUninstallAction"
+                        text="Charles Uninstall App"/>
+                <separator/>
+                <action id="com.canal.android.adb.action.canal.ReleaseWipeDataAction"
+                        class="com.canal.android.adb.action.canal.ReleaseWipeDataAction"
+                        text="Release Wipe Data"/>
+                <action id="com.canal.android.adb.action.canal.ReleaseUninstallAction"
+                        class="com.canal.android.adb.action.canal.ReleaseUninstallAction"
+                        text="Release Uninstall App"/>
+                <separator/>
+                <action id="com.canal.android.adb.action.canal.BoxWipeDataAction"
+                        class="com.canal.android.adb.action.canal.BoxWipeDataAction"
+                        text="Box Wipe Data"/>
+                <action id="com.canal.android.adb.action.canal.BoxUninstallAction"
+                        class="com.canal.android.adb.action.canal.BoxUninstallAction"
+                        text="Box Uninstall App"/>
+            </group>
+
         </group>
 
 
