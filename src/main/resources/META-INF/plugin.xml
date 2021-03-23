@@ -18,11 +18,15 @@
     <actions>
         <group id="AdbMenu" text="ADB+" popup="false">
             <add-to-group group-id="MainMenu"/>
+            <action id="com.canal.android.adb.action.ToggleLayoutBoundsAction"
+                    class="com.canal.android.adb.action.ToggleLayoutBoundsAction" text="Toggle Layout Bounds"
+                    description="Toggle layout bounds">
+            </action>
+            <action id="com.canal.android.adb.action.StandByAction" class="com.canal.android.adb.action.StandByAction"
+                    text="Stand By"
+                    description="Stand by">
+            </action>
         </group>
 
-        <action id="com.canal.android.adb.action.ToggleLayoutBoundsAction" class="com.canal.android.adb.action.ToggleLayoutBoundsAction" text="Toggle Layout Bounds"
-                description="Toggle layout bounds">
-            <add-to-group group-id="AdbMenu"/>
-        </action>
     </actions>
 </idea-plugin>
