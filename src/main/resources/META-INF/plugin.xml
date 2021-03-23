@@ -18,15 +18,31 @@
     <actions>
         <group id="AdbMenu" text="ADB+" popup="false">
             <add-to-group group-id="MainMenu"/>
-            <action id="com.canal.android.adb.action.ToggleLayoutBoundsAction"
-                    class="com.canal.android.adb.action.ToggleLayoutBoundsAction" text="Toggle Layout Bounds"
-                    description="Toggle layout bounds">
-            </action>
-            <action id="com.canal.android.adb.action.StandByAction" class="com.canal.android.adb.action.StandByAction"
-                    text="Stand By"
-                    description="Stand by">
-            </action>
+
+            <group id="DeviceMenu" text="Device" popup="true">
+                <action id="com.canal.android.adb.action.ToggleLayoutBoundsAction"
+                        class="com.canal.android.adb.action.ToggleLayoutBoundsAction"
+                        text="Toggle Layout Bounds"
+                        description="Toggle layout bounds"/>
+                <action id="com.canal.android.adb.action.StandByAction"
+                        class="com.canal.android.adb.action.StandByAction"
+                        text="Stand By"
+                        description="Stand by"/>
+            </group>
+
+            <group id="DeeplinkMenu" text="Deeplink" popup="true">
+                <action id="com.canal.android.adb.action.DeeplinkSettingsAction"
+                        class="com.canal.android.adb.action.DeeplinkSettingsAction"
+                        text="Settings"
+                        description="Open android settings"/>
+                <action id="com.canal.android.adb.action.DeeplinkAllAppsAction"
+                        class="com.canal.android.adb.action.DeeplinkAllAppsAction"
+                        text="All Apps"
+                        description="Open all apps page"/>
+            </group>
+
         </group>
+
 
     </actions>
 </idea-plugin>
