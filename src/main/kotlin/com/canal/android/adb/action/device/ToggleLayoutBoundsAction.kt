@@ -4,15 +4,16 @@ import com.android.ddmlib.IDevice
 import com.android.ddmlib.NullOutputReceiver
 import com.canal.android.adb.action.BaseDeviceAction
 import com.canal.android.adb.util.SingleLineReceiver
+import com.intellij.openapi.project.Project
 
 class ToggleLayoutBoundsAction : BaseDeviceAction() {
 
-    override fun IDevice.process() {
-        this.executeShellCommand(
+    override fun process(project: Project, device: IDevice) {
+        device.executeShellCommand(
             "getprop debug.layout",
             SingleLineReceiver { firstLine ->
                 val enable = firstLine.toBoolean().not()
-                enableLayoutBounds(enable)
+                device.enableLayoutBounds(enable)
             }
         )
     }
