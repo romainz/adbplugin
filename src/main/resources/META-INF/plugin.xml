@@ -97,6 +97,16 @@
 
         </group>
 
-
     </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable
+                parentId="tools"
+                instance="com.canal.android.adb.setting.AdbPluginSettingsConfigurable"
+                id="org.intellij.sdk.settings.AppSettingsConfigurable"
+                displayName="ADB+"/>
+        <applicationService
+                serviceImplementation="com.canal.android.adb.setting.AdbPluginSettingsState"/>
+    </extensions>
+
 </idea-plugin>
