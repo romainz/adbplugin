@@ -4,17 +4,18 @@ import com.android.ddmlib.IDevice
 import com.canal.android.adb.util.toCurrentDevice
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.project.Project
 
 abstract class BaseDeviceAction : AnAction() {
 
     override fun actionPerformed(event: AnActionEvent) {
-        val project = event.project
+        val eventProject = event.project
 
-        project.toCurrentDevice { device ->
-            device.process()
+        eventProject.toCurrentDevice { project, device ->
+            process(project, device)
         }
     }
 
-    abstract fun IDevice.process()
+    abstract fun process(project: Project, device: IDevice)
 
 }
