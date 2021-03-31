@@ -75,6 +75,9 @@
                 <action id="com.canal.android.adb.action.canal.ForceStopAction"
                         class="com.canal.android.adb.action.canal.ForceStopAction"
                         text="Force Stop App"/>
+                <action id="com.canal.android.adb.action.canal.StartApplicationAction"
+                        class="com.canal.android.adb.action.canal.StartApplicationAction"
+                        text="Start App"/>
             </group>
 
         </group>
