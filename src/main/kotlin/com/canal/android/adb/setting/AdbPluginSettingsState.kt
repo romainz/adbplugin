@@ -19,6 +19,7 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 class AdbPluginSettingsState : PersistentStateComponent<AdbPluginSettingsState?> {
 
     var displayAdbNotification = false
+    var applications : List<String> = emptyList()
 
     override fun getState(): AdbPluginSettingsState = this
 
