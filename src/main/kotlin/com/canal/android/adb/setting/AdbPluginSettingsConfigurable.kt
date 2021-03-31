@@ -23,17 +23,20 @@ class AdbPluginSettingsConfigurable : Configurable {
 
     override fun isModified(): Boolean {
         val settings: AdbPluginSettingsState = AdbPluginSettingsState.instance
-        return settingsComponent?.displayAdbNotification != settings.displayAdbNotification
+        return (settingsComponent?.displayAdbNotification != settings.displayAdbNotification)
+                || (settingsComponent?.applications != settings.applications)
     }
 
     override fun apply() {
         val settings: AdbPluginSettingsState = AdbPluginSettingsState.instance
         settings.displayAdbNotification = settingsComponent?.displayAdbNotification ?: false
+        settings.applications = settingsComponent?.applications ?: mutableListOf()
     }
 
     override fun reset() {
         val settings: AdbPluginSettingsState = AdbPluginSettingsState.instance
         settingsComponent?.displayAdbNotification = settings.displayAdbNotification
+        settingsComponent?.applications = settings.applications
     }
 
     override fun disposeUIResources() {
