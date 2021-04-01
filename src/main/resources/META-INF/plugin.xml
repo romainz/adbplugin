@@ -19,6 +19,10 @@
             <add-to-group group-id="MainMenu"/>
 
             <group id="DeviceMenu" text="Device" popup="true">
+                <action id="com.canal.android.adb.action.device.InputTextAction"
+                        class="com.canal.android.adb.action.device.InputTextAction"
+                        text="Input Text"
+                        description="Input text"/>
                 <action id="com.canal.android.adb.action.device.ToggleLayoutBoundsAction"
                         class="com.canal.android.adb.action.device.ToggleLayoutBoundsAction"
                         text="Toggle Layout Bounds"
