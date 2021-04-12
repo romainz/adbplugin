@@ -1,10 +1,12 @@
 package com.canal.android.adb.setting
 
+import com.canal.android.adb.setting.model.Device
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.util.xmlb.XmlSerializerUtil
+import com.intellij.util.xmlb.annotations.XCollection
 
 
 /**
@@ -19,7 +21,10 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 class AdbPluginSettingsState : PersistentStateComponent<AdbPluginSettingsState?> {
 
     var displayAdbNotification = false
-    var applications : List<String> = emptyList()
+    var applications: List<String> = emptyList()
+
+    @XCollection(elementName = "devices")
+    var devices: List<Device> = emptyList()
 
     override fun getState(): AdbPluginSettingsState = this
 

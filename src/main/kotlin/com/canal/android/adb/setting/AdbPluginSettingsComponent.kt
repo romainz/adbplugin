@@ -1,19 +1,15 @@
 package com.canal.android.adb.setting
 
+import com.canal.android.adb.setting.model.Device
+import com.canal.android.adb.setting.view.ApplicationsPanel
+import com.canal.android.adb.setting.view.DevicesPanel
 import com.canal.android.adb.setting.view.EditApplicationDialog
+import com.canal.android.adb.setting.view.EditDeviceDialog
 import com.intellij.openapi.ui.DialogBuilder
-import com.intellij.ui.IdeBorderFactory
-import com.intellij.ui.ListUtil
-import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.components.JBCheckBox
-import com.intellij.ui.components.JBList
 import com.intellij.util.ui.FormBuilder
-import com.intellij.util.ui.JBDimension
-import com.intellij.util.ui.JBUI
-import java.awt.BorderLayout
-import java.awt.Component
-import java.awt.Dimension
-import javax.swing.*
+import javax.swing.JComponent
+import javax.swing.JPanel
 
 
 /**
@@ -21,10 +17,13 @@ import javax.swing.*
  *
  * took inspiration of FileTypeConfigurable
  */
-class AdbPluginSettingsComponent {
+class AdbPluginSettingsComponent :
+    ApplicationsPanel.Controller,
+    DevicesPanel.Controller {
 
     val panel: JPanel
     private val applicationsPanel = ApplicationsPanel(this)
+    private val devicesPanel = DevicesPanel(this)
 
     private val displayAdbNotificationCheckbox = JBCheckBox("Display the ADB command in a notification")
 
@@ -45,21 +44,34 @@ class AdbPluginSettingsComponent {
             }
         }
 
+    var devices: List<Device>
+        get() = devicesPanel.getDevices()
+        set(newDevices) {
+            for (device in newDevices) {
+                devicesPanel.addDevice(device)
+            }
+        }
+
     init {
         panel = FormBuilder.createFormBuilder()
             .addComponent(displayAdbNotificationCheckbox, 1)
             .addComponent(applicationsPanel, 1)
+            .addComponent(devicesPanel, 1)
             .addComponentFillVertically(JPanel(), 0)
             .panel
     }
 
-    private fun editApplication() {
-        val item: String = applicationsPanel.selectedItem
+    override fun editApplication() {
+        val item: String = applicationsPanel.getSelectedItem()
         editApplication(item)
     }
 
-    private fun addApplication() {
+    override fun addApplication() {
         editApplication(null)
+    }
+
+    override fun removeApplication() {
+        applicationsPanel.removeSelected()
     }
 
     private fun editApplication(application: String?) {
@@ -81,73 +93,36 @@ class AdbPluginSettingsComponent {
         }
     }
 
-    private fun removeApplication() {
-        applicationsPanel.removeSelected()
+    override fun editDevice() {
+        editDevice(devicesPanel.getSelectedItem())
     }
 
-    class ApplicationsPanel(private val myController: AdbPluginSettingsComponent) : JPanel(BorderLayout()) {
-        private val applicationListComponent: JBList<String> = JBList(DefaultListModel())
-
-        fun getApplications(): List<String> {
-            val list = mutableListOf<String>()
-            for (i in 0 until applicationListComponent.itemsCount) {
-                list.add(applicationListComponent.model.getElementAt(i))
-            }
-            return list
-        }
-
-        private val listModel: DefaultListModel<String>
-            private get() = applicationListComponent.model as DefaultListModel<String>
-
-        fun addApplication(application: String) {
-            listModel.addElement(application)
-        }
-
-        fun removeSelected(): String? {
-            val selectedValue = applicationListComponent.selectedValue ?: return null
-            ListUtil.removeSelectedItems(applicationListComponent)
-            return selectedValue
-        }
-
-        val selectedItem: String
-            get() = applicationListComponent.selectedValue
-
-        init {
-            applicationListComponent.apply {
-                selectionMode = ListSelectionModel.SINGLE_SELECTION
-                setCellRenderer(ApplicationRenderer())
-                emptyText.text = "No application defined"
-            }
-            add(
-                ToolbarDecorator.createDecorator(applicationListComponent)
-                    .setAddAction { myController.addApplication() }
-//                    .setEditAction { myController.editApplication() }
-                    .setRemoveAction { myController.removeApplication() }
-                    .disableUpDownActions().createPanel(), BorderLayout.CENTER
-            )
-            border = IdeBorderFactory.createTitledBorder(
-                "Applications",
-                false,
-                JBUI.insetsTop(8)
-            ).setShowLine(false)
-        }
+    override fun addDevice() {
+        editDevice(null)
     }
 
-    private class ApplicationRenderer : DefaultListCellRenderer() {
-        override fun getListCellRendererComponent(
-            list: JList<*>,
-            value: Any,
-            index: Int,
-            isSelected: Boolean,
-            cellHasFocus: Boolean
-        ): Component {
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
-            text = " $text"
-            return this
-        }
+    override fun removeDevice() {
+        devicesPanel.removeSelected()
+    }
 
-        override fun getPreferredSize(): Dimension {
-            return JBDimension(0, 20)
+    private fun editDevice(device: Device?) {
+        val title = "Device"
+        val dialog = EditDeviceDialog(device)
+        val builder = DialogBuilder(devicesPanel)
+        builder.setCenterPanel(dialog.mainPanel)
+        builder.setTitle(title)
+        builder.showModal(true)
+        if (builder.dialogWrapper.isOK) {
+            val deviceName = dialog.nameTextField.text ?: return
+            val deviceIp = dialog.ipTextField.text ?: return
+            if (deviceIp.isNotEmpty()) {
+                if (device == null) {
+                    // add
+                    devicesPanel.addDevice(Device(deviceName, deviceIp))
+                } else {
+                    // edit - todo
+                }
+            }
         }
     }
 
