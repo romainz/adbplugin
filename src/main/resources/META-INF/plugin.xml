@@ -23,6 +23,10 @@
                         class="com.canal.android.adb.action.device.AdbConnectAction"
                         text="Connect"
                         description="Connect device"/>
+                <action id="com.canal.android.adb.action.device.AdbDisconnectAction"
+                        class="com.canal.android.adb.action.device.AdbDisconnectAction"
+                        text="Disconnect"
+                        description="Disconnect device"/>
                 <separator/>
                 <action id="com.canal.android.adb.action.device.InputTextAction"
                         class="com.canal.android.adb.action.device.InputTextAction"

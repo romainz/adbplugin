@@ -9,7 +9,6 @@ import com.intellij.util.ui.JBUI
 import java.awt.BorderLayout
 import javax.swing.JPanel
 import javax.swing.ListSelectionModel
-import javax.swing.table.AbstractTableModel
 
 
 class DevicesPanel(private val controller: Controller) : JPanel(BorderLayout()) {
