@@ -11,8 +11,8 @@ abstract class BaseDeviceAction : AnAction() {
     override fun actionPerformed(event: AnActionEvent) {
         val eventProject = event.project
 
-        eventProject.toCurrentDevice { project, device ->
-            process(project, device)
+        eventProject?.toCurrentDevice()?.let { device ->
+            process(eventProject, device)
         }
     }
 
