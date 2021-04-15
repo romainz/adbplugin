@@ -1,5 +1,6 @@
 package com.canal.android.adb.action
 
+import com.canal.android.adb.setting.AdbPluginSettingsState
 import com.canal.android.adb.util.showNotification
 import com.google.common.util.concurrent.ThreadFactoryBuilder
 import com.intellij.notification.NotificationType
@@ -29,7 +30,11 @@ abstract class BaseAdbAction : AnAction() {
     }
 
     open fun process(project: Project, platformTools: String) {
-        val process = Runtime.getRuntime().exec(platformTools + "adb ${getAdbCommand()}")
+        val adbCommand = "adb ${getAdbCommand()}"
+        if (AdbPluginSettingsState.instance.displayAdbNotification) {
+            project.showNotification(adbCommand, NotificationType.INFORMATION, "commandId")
+        }
+        val process = Runtime.getRuntime().exec(platformTools + adbCommand)
         // logs
         var message = process.inputStream.bufferedReader().use(BufferedReader::readText)
         if (message.isNotEmpty()) {

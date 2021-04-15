@@ -5,8 +5,8 @@ import com.intellij.notification.NotificationGroup
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.project.Project
 
-fun Project?.showNotification(message: String, type: NotificationType) {
-    NotificationGroup("canal", NotificationDisplayType.BALLOON)
+fun Project?.showNotification(message: String, type: NotificationType, notificationId: String = "default_id") {
+    NotificationGroup(notificationId, NotificationDisplayType.BALLOON)
         .createNotification(
             "ADB+ Plugin",
             message,
