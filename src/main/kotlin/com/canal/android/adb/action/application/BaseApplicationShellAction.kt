@@ -7,18 +7,18 @@ import com.intellij.openapi.project.Project
 
 abstract class BaseApplicationShellAction : BaseShellAction() {
 
-    private var application: String = ""
+    private lateinit var applicationId: String
 
     override fun process(project: Project, device: IDevice) {
         val dialog = ApplicationSelectionDialog()
         val dialogOk = dialog.showAndGet()
-        if (dialogOk && dialog.selectedApplication != null) {
-            application = dialog.selectedApplication!!
+        if (dialogOk && dialog.selectedApplicationId != null) {
+            applicationId = dialog.selectedApplicationId!!
             super.process(project, device)
         }
     }
 
-    override fun getShellCommand(): String = getShellCommand(application)
+    override fun getShellCommand(): String = getShellCommand(applicationId)
 
     abstract fun getShellCommand(application: String): String
 }

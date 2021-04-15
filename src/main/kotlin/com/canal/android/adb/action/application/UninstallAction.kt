@@ -9,7 +9,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 class UninstallAction : BaseAdbAction() {
 
     private lateinit var device: IDevice
-    private lateinit var application: String
+    private lateinit var applicationId: String
 
     override fun actionPerformed(event: AnActionEvent) {
         event.project?.toCurrentDevice()?.let { device ->
@@ -17,14 +17,14 @@ class UninstallAction : BaseAdbAction() {
 
             val dialog = ApplicationSelectionDialog()
             val dialogOk = dialog.showAndGet()
-            if (dialogOk && dialog.selectedApplication != null) {
-                application = dialog.selectedApplication!!
+            if (dialogOk && dialog.selectedApplicationId != null) {
+                applicationId = dialog.selectedApplicationId!!
                 super.actionPerformed(event)
             }
         }
     }
 
-    override fun getAdbCommand(): String = "-s ${device.serialNumber} uninstall $application"
+    override fun getAdbCommand(): String = "-s ${device.serialNumber} uninstall $applicationId"
 
 }
 

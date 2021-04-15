@@ -3,6 +3,7 @@ package com.canal.android.adb.setting.view
 import com.android.tools.idea.uibuilder.handlers.constraint.draw.DrawConnection.GAP
 import com.canal.android.adb.setting.model.Device
 import java.awt.BorderLayout
+import java.awt.Dimension
 import java.awt.GridLayout
 import javax.swing.JLabel
 import javax.swing.JPanel
@@ -21,6 +22,7 @@ class EditDeviceDialog(device: Device?) {
             add(nameTextField)
             add(JLabel("Ip address: "))
             add(ipTextField)
+            preferredSize = Dimension(400, 200)
         }
     }
 }

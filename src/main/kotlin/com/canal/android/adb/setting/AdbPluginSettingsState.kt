@@ -1,5 +1,6 @@
 package com.canal.android.adb.setting
 
+import com.canal.android.adb.setting.model.Application
 import com.canal.android.adb.setting.model.Device
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager
@@ -21,7 +22,9 @@ import com.intellij.util.xmlb.annotations.XCollection
 class AdbPluginSettingsState : PersistentStateComponent<AdbPluginSettingsState?> {
 
     var displayAdbNotification = false
-    var applications: List<String> = emptyList()
+
+    @XCollection(elementName = "applications")
+    var applications: List<Application> = emptyList()
 
     @XCollection(elementName = "devices")
     var devices: List<Device> = emptyList()

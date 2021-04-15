@@ -1,5 +1,6 @@
 package com.canal.android.adb.setting
 
+import com.canal.android.adb.setting.model.Application
 import com.canal.android.adb.setting.model.Device
 import com.canal.android.adb.setting.view.ApplicationsPanel
 import com.canal.android.adb.setting.view.DevicesPanel
@@ -36,7 +37,7 @@ class AdbPluginSettingsComponent :
             displayAdbNotificationCheckbox.isSelected = newStatus
         }
 
-    var applications: List<String>
+    var applications: List<Application>
         get() = applicationsPanel.getApplications()
         set(newApplications) {
             for (application in newApplications) {
@@ -62,7 +63,7 @@ class AdbPluginSettingsComponent :
     }
 
     override fun editApplication() {
-        val item: String = applicationsPanel.getSelectedItem()
+        val item: Application = applicationsPanel.getSelectedItem()
         editApplication(item)
     }
 
@@ -74,21 +75,24 @@ class AdbPluginSettingsComponent :
         applicationsPanel.removeSelected()
     }
 
-    private fun editApplication(application: String?) {
+    private fun editApplication(application: Application?) {
         val title = "application id"
         val dialog = EditApplicationDialog(application)
         val builder = DialogBuilder(applicationsPanel)
-        builder.setPreferredFocusComponent(dialog.applicationTextField)
+        builder.setPreferredFocusComponent(dialog.nameTextField)
         builder.setCenterPanel(dialog.mainPanel)
         builder.setTitle(title)
         builder.showModal(true)
         if (builder.dialogWrapper.isOK) {
-            val newApplication = dialog.applicationTextField.text ?: return
-            if (application.isNullOrEmpty()) {
-                // add
-                applicationsPanel.addApplication(newApplication)
-            } else {
-                // edit - todo
+            val applicationName = dialog.nameTextField.text ?: return
+            val applicationId = dialog.idTextField.text ?: return
+            if (applicationId.isNotEmpty()) {
+                if (application == null) {
+                    // add
+                    applicationsPanel.addApplication(Application(applicationName, applicationId))
+                } else {
+                    // edit - todo
+                }
             }
         }
     }

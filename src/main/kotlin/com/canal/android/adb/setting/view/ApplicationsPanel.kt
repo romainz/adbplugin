@@ -1,46 +1,44 @@
 package com.canal.android.adb.setting.view
 
+import com.canal.android.adb.setting.model.Application
+import com.canal.android.adb.util.tablemodel.ApplicationTableModel
 import com.intellij.ui.IdeBorderFactory
-import com.intellij.ui.ListUtil
 import com.intellij.ui.ToolbarDecorator
-import com.intellij.ui.components.JBList
-import com.intellij.util.ui.JBDimension
+import com.intellij.ui.table.JBTable
 import com.intellij.util.ui.JBUI
 import java.awt.BorderLayout
-import java.awt.Component
-import java.awt.Dimension
-import javax.swing.*
+import javax.swing.JPanel
+import javax.swing.ListSelectionModel
 
 class ApplicationsPanel(private val controller: Controller) : JPanel(BorderLayout()) {
 
-    private val applicationListComponent: JBList<String> = JBList(DefaultListModel())
+    private val tableModel: ApplicationTableModel = ApplicationTableModel()
+    private val applicationListComponent: JBTable = JBTable(tableModel)
 
-    fun getApplications(): List<String> {
-        val list = mutableListOf<String>()
-        for (i in 0 until applicationListComponent.itemsCount) {
-            list.add(applicationListComponent.model.getElementAt(i))
+    fun getApplications(): List<Application> {
+        val list = mutableListOf<Application>()
+        for (row in 0 until applicationListComponent.rowCount) {
+            val name = applicationListComponent.model.getValueAt(row, 0).toString()
+            val id = applicationListComponent.model.getValueAt(row, 1).toString()
+            list.add(Application(name, id))
         }
         return list
     }
 
-    private val listModel: DefaultListModel<String> = applicationListComponent.model as DefaultListModel<String>
-
-    fun addApplication(application: String) {
-        listModel.addElement(application)
+    fun addApplication(application: Application) {
+        tableModel.addApplication(application)
     }
 
-    fun removeSelected(): String? {
-        val selectedValue = applicationListComponent.selectedValue ?: return null
-        ListUtil.removeSelectedItems(applicationListComponent)
-        return selectedValue
+    fun removeSelected() {
+        val selectedRowIndex = applicationListComponent.selectedRow
+        tableModel.removeApplication(selectedRowIndex)
     }
 
-    fun getSelectedItem(): String = applicationListComponent.selectedValue
+    fun getSelectedItem(): Application = tableModel.getApplication(applicationListComponent.selectedRow)
 
     init {
         applicationListComponent.apply {
-            selectionMode = ListSelectionModel.SINGLE_SELECTION
-            cellRenderer = ApplicationRenderer()
+            setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
             emptyText.text = "No application defined"
         }
         add(
@@ -64,23 +62,5 @@ class ApplicationsPanel(private val controller: Controller) : JPanel(BorderLayou
         fun addApplication()
 
         fun removeApplication()
-    }
-
-    private class ApplicationRenderer : DefaultListCellRenderer() {
-        override fun getListCellRendererComponent(
-            list: JList<*>,
-            value: Any,
-            index: Int,
-            isSelected: Boolean,
-            cellHasFocus: Boolean
-        ): Component {
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
-            text = " $text"
-            return this
-        }
-
-        override fun getPreferredSize(): Dimension {
-            return JBDimension(0, 20)
-        }
     }
 }
