@@ -1,4 +1,4 @@
-package com.canal.android.adb.action.canal
+package com.canal.android.adb.action.application
 
 class WipeDataAction : BaseApplicationShellAction() {
 

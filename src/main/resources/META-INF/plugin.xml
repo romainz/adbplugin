@@ -79,17 +79,17 @@
             </group>
 
             <group id="ApplicationMenu" text="Application" popup="true">
-                <action id="com.canal.android.adb.action.canal.WipeDataAction"
-                        class="com.canal.android.adb.action.canal.WipeDataAction"
+                <action id="com.canal.android.adb.action.application.WipeDataAction"
+                        class="com.canal.android.adb.action.application.WipeDataAction"
                         text="Wipe Data"/>
-                <action id="com.canal.android.adb.action.canal.UninstallAction"
-                        class="com.canal.android.adb.action.canal.UninstallAction"
+                <action id="com.canal.android.adb.action.application.UninstallAction"
+                        class="com.canal.android.adb.action.application.UninstallAction"
                         text="Uninstall"/>
-                <action id="com.canal.android.adb.action.canal.ForceStopAction"
-                        class="com.canal.android.adb.action.canal.ForceStopAction"
+                <action id="com.canal.android.adb.action.application.ForceStopAction"
+                        class="com.canal.android.adb.action.application.ForceStopAction"
                         text="Force Stop"/>
-                <action id="com.canal.android.adb.action.canal.StartApplicationAction"
-                        class="com.canal.android.adb.action.canal.StartApplicationAction"
+                <action id="com.canal.android.adb.action.application.StartApplicationAction"
+                        class="com.canal.android.adb.action.application.StartApplicationAction"
                         text="Start"/>
             </group>
 
