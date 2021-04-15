@@ -1,9 +1,6 @@
-package com.canal.android.adb.action.canal
+package com.canal.android.adb.util.dialog
 
-import com.android.ddmlib.IDevice
-import com.canal.android.adb.action.BaseShellAction
 import com.canal.android.adb.setting.AdbPluginSettingsState
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.table.JBTable
 import java.awt.BorderLayout
@@ -13,26 +10,7 @@ import javax.swing.JPanel
 import javax.swing.JScrollPane
 import javax.swing.table.AbstractTableModel
 
-abstract class BaseApplicationAction : BaseShellAction() {
-
-    private var application: String = ""
-
-    override fun process(project: Project, device: IDevice) {
-
-        val dialog = ApplicationSelectionDialog()
-        val dialogOk = dialog.showAndGet()
-        if (dialogOk && dialog.selectedApplication != null) {
-            application = dialog.selectedApplication!!
-            super.process(project, device)
-        }
-    }
-
-    override fun getShellCommand(): String = getShellCommand(application)
-
-    abstract fun getShellCommand(application: String) : String
-}
-
-private class ApplicationSelectionDialog() : DialogWrapper(true) {
+class ApplicationSelectionDialog : DialogWrapper(true) {
 
     var selectedApplication: String? = null
 

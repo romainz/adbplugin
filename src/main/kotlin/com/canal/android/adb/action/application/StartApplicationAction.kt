@@ -1,6 +1,6 @@
-package com.canal.android.adb.action.canal
+package com.canal.android.adb.action.application
 
-class StartApplicationAction : BaseApplicationAction() {
+class StartApplicationAction : BaseApplicationShellAction() {
 
     override fun getShellCommand(application: String): String =
         "monkey -p $application -c android.intent.category.LAUNCHER 1"
