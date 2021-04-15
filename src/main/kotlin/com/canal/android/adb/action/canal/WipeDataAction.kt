@@ -1,6 +1,6 @@
 package com.canal.android.adb.action.canal
 
-class WipeDataAction : BaseApplicationAction() {
+class WipeDataAction : BaseApplicationShellAction() {
 
     override fun getShellCommand(application: String): String = "pm clear $application"
 
