@@ -72,6 +72,10 @@
                         class="com.canal.android.adb.action.deeplink.DeeplinkAllAppsAction"
                         text="All Apps"
                         description="Open all apps page"/>
+                <action id="com.canal.android.adb.action.deeplink.DeeplinkDeviceInfoAction"
+                        class="com.canal.android.adb.action.deeplink.DeeplinkDeviceInfoAction"
+                        text="Device Information"
+                        description="Open device information page"/>
                 <action id="com.canal.android.adb.action.deeplink.DeeplinkLanguageAction"
                         class="com.canal.android.adb.action.deeplink.DeeplinkLanguageAction"
                         text="Language"
