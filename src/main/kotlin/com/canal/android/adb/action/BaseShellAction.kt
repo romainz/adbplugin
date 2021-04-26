@@ -12,7 +12,7 @@ abstract class BaseShellAction : BaseDeviceAction() {
     override fun process(project: Project, device: IDevice) {
         device.executeShellCommand(
             getShellCommand(),
-            ShellReceiver.getReceiver()
+            ShellReceiver(project)
         )
         if (AdbPluginSettingsState.instance.displayAdbNotification) {
             project.showNotification("adb shell ${getShellCommand()}", NotificationType.INFORMATION)

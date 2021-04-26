@@ -1,15 +1,13 @@
 package com.canal.android.adb.util
 
-import android.util.Log
-import com.android.ddmlib.IShellOutputReceiver
+import com.intellij.notification.NotificationType
+import com.intellij.openapi.project.Project
+import org.jetbrains.android.util.AndroidOutputReceiver
 
-class ShellReceiver : IShellOutputReceiver {
+class ShellReceiver(val project: Project) : AndroidOutputReceiver() {
 
-    override fun addOutput(data: ByteArray?, offset: Int, length: Int) {
-        if (data != null) {
-            Log.d(tag, String(data))
-        }
-    }
+    private val output: StringBuilder = StringBuilder()
+    private var notificationType = NotificationType.INFORMATION
 
     override fun flush() {}
 
@@ -17,11 +15,23 @@ class ShellReceiver : IShellOutputReceiver {
         return false
     }
 
-    companion object {
-        private val tag: String = ShellReceiver::class.java.simpleName
+    override fun processNewLines(lines: Array<out String>?) {
+        super.processNewLines(lines)
+        project.showNotification(output.toString(), notificationType, NOTIFICATION_ID)
+    }
 
-        private val receiver = ShellReceiver()
+    override fun processNewLine(line: String) {
+        output.appendln(line)
+        when {
+            line.startsWith(PREFIX_MESSAGE_ERROR) -> notificationType = NotificationType.ERROR
+            line.startsWith(PREFIX_MESSAGE_WARNING) -> notificationType = NotificationType.WARNING
+        }
+    }
 
-        fun getReceiver(): IShellOutputReceiver = receiver
+
+    private companion object {
+        const val NOTIFICATION_ID = "shell_id"
+        const val PREFIX_MESSAGE_ERROR = "Error"
+        const val PREFIX_MESSAGE_WARNING = "Warning"
     }
 }
