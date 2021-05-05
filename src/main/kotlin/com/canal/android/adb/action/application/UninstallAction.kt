@@ -15,7 +15,7 @@ class UninstallAction : BaseAdbAction() {
         event.project?.toCurrentDevice()?.let { device ->
             this.device = device
 
-            val dialog = ApplicationSelectionDialog()
+            val dialog = ApplicationSelectionDialog(DIALOG_TITLE, DIALOG_BUTTON)
             val dialogOk = dialog.showAndGet()
             if (dialogOk && dialog.selectedApplicationId != null) {
                 applicationId = dialog.selectedApplicationId!!
@@ -25,6 +25,11 @@ class UninstallAction : BaseAdbAction() {
     }
 
     override fun getAdbCommand(): String = "-s ${device.serialNumber} uninstall $applicationId"
+
+    private companion object {
+        const val DIALOG_TITLE = "Uninstall application"
+        const val DIALOG_BUTTON = "Uninstall"
+    }
 
 }
 

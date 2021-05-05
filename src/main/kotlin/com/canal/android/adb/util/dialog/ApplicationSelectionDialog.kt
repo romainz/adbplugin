@@ -12,14 +12,14 @@ import javax.swing.*
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 
-class ApplicationSelectionDialog : DialogWrapper(true) {
+class ApplicationSelectionDialog(dialogTitle: String, private val button: String) : DialogWrapper(true) {
 
     var selectedApplicationId: String? = null
     private val textField = JTextField()
 
     init {
         init()
-        title = "Uninstall the application"
+        title = dialogTitle
     }
 
     override fun createCenterPanel(): JComponent {
@@ -62,7 +62,7 @@ class ApplicationSelectionDialog : DialogWrapper(true) {
                 weightx = 0.0
                 gridwidth = GridBagConstraints.REMAINDER
             }
-            val button = JButton("Uninstall").apply {
+            val button = JButton(button).apply {
                 addActionListener {
                     if (textField.text.isNotEmpty()) {
                         selectedApplicationId = textField.text
