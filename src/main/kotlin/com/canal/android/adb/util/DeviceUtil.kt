@@ -54,11 +54,16 @@ private class DeviceSelectionDialog(private val devices: Array<IDevice>) : Dialo
             }
         }
 
-        return JPanel(BorderLayout()).apply {
+        return JPanel().apply {
             layout = BorderLayout()
             add(JScrollPane(table), BorderLayout.CENTER)
-            preferredSize = Dimension(600, 200)
+            preferredSize = PREFERRED_SIZE
+            setResizable(false)
         }
+    }
+
+    private companion object {
+        val PREFERRED_SIZE = Dimension(600, 200)
     }
 
 }

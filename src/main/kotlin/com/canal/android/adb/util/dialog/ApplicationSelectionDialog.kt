@@ -83,9 +83,15 @@ class ApplicationSelectionDialog(dialogTitle: String, private val button: String
                 fill = GridBagConstraints.BOTH
                 gridwidth = GridBagConstraints.REMAINDER
             }
-            add(JScrollPane(table), constraints5)
-            preferredSize = Dimension(500, 200)
+            val jScrollPane = JScrollPane(table).apply {
+                preferredSize = PREFERRED_SIZE
+            }
+            add(jScrollPane, constraints5)
+            setResizable(false)
         }
     }
 
+    private companion object {
+        val PREFERRED_SIZE = Dimension(500, 200)
+    }
 }

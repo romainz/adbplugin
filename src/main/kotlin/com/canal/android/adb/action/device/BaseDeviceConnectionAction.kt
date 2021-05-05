@@ -101,9 +101,15 @@ private class DeviceSelectionDialog : DialogWrapper(true) {
                 fill = GridBagConstraints.BOTH
                 gridwidth = GridBagConstraints.REMAINDER
             }
-            add(JScrollPane(table), constraints5)
-            preferredSize = Dimension(400, 200)
+            val jScrollPane = JScrollPane(table).apply {
+                preferredSize = PREFERRED_SIZE
+            }
+            add(jScrollPane, constraints5)
+            setResizable(false)
         }
     }
 
+    private companion object {
+        val PREFERRED_SIZE = Dimension(400, 200)
+    }
 }
