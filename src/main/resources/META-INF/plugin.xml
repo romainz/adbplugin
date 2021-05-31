@@ -72,6 +72,10 @@
                         class="com.canal.android.adb.action.deeplink.DeeplinkAllAppsAction"
                         text="All Apps"
                         description="Open all apps page"/>
+                <action id="com.canal.android.adb.action.deeplink.DeeplinkDevelopmentSettingsAction"
+                        class="com.canal.android.adb.action.deeplink.DeeplinkDevelopmentSettingsAction"
+                        text="Development Settings"
+                        description="Open developement settings page"/>
                 <action id="com.canal.android.adb.action.deeplink.DeeplinkDeviceInfoAction"
                         class="com.canal.android.adb.action.deeplink.DeeplinkDeviceInfoAction"
                         text="Device Information"
@@ -84,6 +88,10 @@
                         class="com.canal.android.adb.action.deeplink.DeeplinkSettingsAction"
                         text="Settings"
                         description="Open android settings"/>
+                <action id="com.canal.android.adb.action.deeplink.DeeplinkWifiAction"
+                        class="com.canal.android.adb.action.deeplink.DeeplinkWifiAction"
+                        text="Wifi Settings"
+                        description="Open Wifi settings"/>
             </group>
 
             <group id="ApplicationMenu" text="Application" popup="true">
