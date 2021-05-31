@@ -16,7 +16,7 @@ import com.intellij.util.xmlb.annotations.XCollection
  * these persistent application settings are stored.
  */
 @State(
-    name = "com.canal.android.adb.setting.AdbPluginSettingsState",
+    name = "ADB+ Settings",
     storages = [Storage("AdbPluginSettings.xml")]
 )
 class AdbPluginSettingsState : PersistentStateComponent<AdbPluginSettingsState?> {
