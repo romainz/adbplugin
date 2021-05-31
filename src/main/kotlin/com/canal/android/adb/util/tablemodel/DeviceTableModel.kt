@@ -26,8 +26,12 @@ class DeviceTableModel(
     }
 
     fun addDevice(device: Device) {
-        devices.add(device)
-        fireTableRowsInserted(devices.size - 1, devices.size - 1)
+        devices.apply {
+            add(device)
+            sortBy { it.name?.toLowerCase() }
+        }
+        val index = devices.indexOf(device)
+        fireTableRowsInserted(index, index)
     }
 
     fun removeDevice(rowIndex: Int) {

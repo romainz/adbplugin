@@ -22,8 +22,12 @@ class ApplicationTableModel(
     }
 
     fun addApplication(application: Application) {
-        applications.add(application)
-        fireTableRowsInserted(applications.size - 1, applications.size - 1)
+        applications.apply {
+            add(application)
+            sortBy { it.name.toLowerCase() }
+        }
+        val index = applications.indexOf(application)
+        fireTableRowsInserted(index, index)
     }
 
     fun removeApplication(rowIndex: Int) {
