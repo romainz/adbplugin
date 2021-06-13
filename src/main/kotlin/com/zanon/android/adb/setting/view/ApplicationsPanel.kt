@@ -1,11 +1,11 @@
 package com.zanon.android.adb.setting.view
 
-import com.zanon.android.adb.setting.model.Application
-import com.zanon.android.adb.util.tablemodel.ApplicationTableModel
 import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.table.JBTable
 import com.intellij.util.ui.JBUI
+import com.zanon.android.adb.setting.model.Application
+import com.zanon.android.adb.util.tablemodel.ApplicationTableModel
 import java.awt.BorderLayout
 import javax.swing.JPanel
 import javax.swing.ListSelectionModel
@@ -29,6 +29,11 @@ class ApplicationsPanel(private val controller: Controller) : JPanel(BorderLayou
         tableModel.addApplication(application)
     }
 
+    fun editApplication(application: Application) {
+        val selectedRowIndex = applicationListComponent.selectedRow
+        tableModel.editApplication(application, selectedRowIndex)
+    }
+
     fun removeSelected() {
         val selectedRowIndex = applicationListComponent.selectedRow
         tableModel.removeApplication(selectedRowIndex)
@@ -44,7 +49,7 @@ class ApplicationsPanel(private val controller: Controller) : JPanel(BorderLayou
         add(
             ToolbarDecorator.createDecorator(applicationListComponent)
                 .setAddAction { controller.addApplication() }
-//                    .setEditAction { myController.editApplication() }
+                .setEditAction { controller.editApplication() }
                 .setRemoveAction { controller.removeApplication() }
                 .disableUpDownActions().createPanel(), BorderLayout.CENTER
         )

@@ -34,6 +34,12 @@ class DeviceTableModel(
         fireTableRowsInserted(index, index)
     }
 
+    fun editDevice(device: Device, index: Int) {
+        devices[index] = device
+        devices.sortBy { it.name?.toLowerCase() }
+        fireTableRowsUpdated(index, index)
+    }
+
     fun removeDevice(rowIndex: Int) {
         devices.removeAt(rowIndex)
         fireTableRowsDeleted(rowIndex, rowIndex)

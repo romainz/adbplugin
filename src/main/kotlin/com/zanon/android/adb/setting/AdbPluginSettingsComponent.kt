@@ -1,14 +1,14 @@
 package com.zanon.android.adb.setting
 
+import com.intellij.openapi.ui.DialogBuilder
+import com.intellij.ui.components.JBCheckBox
+import com.intellij.util.ui.FormBuilder
 import com.zanon.android.adb.setting.model.Application
 import com.zanon.android.adb.setting.model.Device
 import com.zanon.android.adb.setting.view.ApplicationsPanel
 import com.zanon.android.adb.setting.view.DevicesPanel
 import com.zanon.android.adb.setting.view.EditApplicationDialog
 import com.zanon.android.adb.setting.view.EditDeviceDialog
-import com.intellij.openapi.ui.DialogBuilder
-import com.intellij.ui.components.JBCheckBox
-import com.intellij.util.ui.FormBuilder
 import javax.swing.JComponent
 import javax.swing.JPanel
 
@@ -91,7 +91,8 @@ class AdbPluginSettingsComponent :
                     // add
                     applicationsPanel.addApplication(Application(applicationName, applicationId))
                 } else {
-                    // edit - todo
+                    // edit
+                    applicationsPanel.editApplication(Application(applicationName, applicationId))
                 }
             }
         }
@@ -124,7 +125,8 @@ class AdbPluginSettingsComponent :
                     // add
                     devicesPanel.addDevice(Device(deviceName, deviceIp))
                 } else {
-                    // edit - todo
+                    // edit
+                    devicesPanel.editDevice(Device(deviceName, deviceIp))
                 }
             }
         }

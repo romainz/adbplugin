@@ -21,6 +21,12 @@ class ApplicationTableModel(
         }
     }
 
+    fun editApplication(application: Application, index: Int) {
+        applications[index] = application
+        applications.sortBy { it.name.toLowerCase() }
+        fireTableRowsUpdated(index, index)
+    }
+
     fun addApplication(application: Application) {
         applications.apply {
             add(application)

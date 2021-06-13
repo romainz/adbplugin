@@ -1,11 +1,11 @@
 package com.zanon.android.adb.setting.view
 
-import com.zanon.android.adb.setting.model.Device
-import com.zanon.android.adb.util.tablemodel.DeviceTableModel
 import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.table.JBTable
 import com.intellij.util.ui.JBUI
+import com.zanon.android.adb.setting.model.Device
+import com.zanon.android.adb.util.tablemodel.DeviceTableModel
 import java.awt.BorderLayout
 import javax.swing.JPanel
 import javax.swing.ListSelectionModel
@@ -26,9 +26,13 @@ class DevicesPanel(private val controller: Controller) : JPanel(BorderLayout()) 
         return list
     }
 
-
     fun addDevice(device: Device) {
         tableModel.addDevice(device)
+    }
+
+    fun editDevice(device: Device) {
+        val selectedRowIndex = deviceTableComponent.selectedRow
+        tableModel.editDevice(device, selectedRowIndex)
     }
 
     fun removeSelected() {
@@ -46,7 +50,7 @@ class DevicesPanel(private val controller: Controller) : JPanel(BorderLayout()) 
         add(
             ToolbarDecorator.createDecorator(deviceTableComponent)
                 .setAddAction { controller.addDevice() }
-//                    .setEditAction { myController.editDevice() }
+                .setEditAction { controller.editDevice() }
                 .setRemoveAction { controller.removeDevice() }
                 .disableUpDownActions().createPanel(), BorderLayout.CENTER
         )
