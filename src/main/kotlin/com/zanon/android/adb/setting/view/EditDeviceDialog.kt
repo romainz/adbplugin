@@ -22,7 +22,6 @@ class EditDeviceDialog(device: Device?) {
             add(nameTextField)
             add(JLabel("Ip address: "))
             add(ipTextField)
-            preferredSize = Dimension(400, 200)
         }
     }
 }

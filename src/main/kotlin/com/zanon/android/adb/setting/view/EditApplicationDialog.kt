@@ -22,7 +22,6 @@ class EditApplicationDialog(application: Application?) {
             add(nameTextField)
             add(JLabel("Package name: "))
             add(idTextField)
-            preferredSize = Dimension(400, 200)
         }
     }
 }
