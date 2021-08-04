@@ -1,12 +1,11 @@
 package com.zanon.android.adb.setting.view
 
-import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.table.JBTable
-import com.intellij.util.ui.JBUI
 import com.zanon.android.adb.setting.model.Application
 import com.zanon.android.adb.util.tablemodel.ApplicationTableModel
 import java.awt.BorderLayout
+import java.awt.Dimension
 import javax.swing.JPanel
 import javax.swing.ListSelectionModel
 
@@ -53,11 +52,6 @@ class ApplicationsPanel(private val controller: Controller) : JPanel(BorderLayou
                 .setRemoveAction { controller.removeApplication() }
                 .disableUpDownActions().createPanel(), BorderLayout.CENTER
         )
-        border = IdeBorderFactory.createTitledBorder(
-            "Applications",
-            false,
-            JBUI.insetsTop(8)
-        ).setShowLine(false)
     }
 
     interface Controller {

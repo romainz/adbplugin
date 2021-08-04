@@ -1,9 +1,7 @@
 package com.zanon.android.adb.setting.view
 
-import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.table.JBTable
-import com.intellij.util.ui.JBUI
 import com.zanon.android.adb.setting.model.Device
 import com.zanon.android.adb.util.tablemodel.DeviceTableModel
 import java.awt.BorderLayout
@@ -54,11 +52,6 @@ class DevicesPanel(private val controller: Controller) : JPanel(BorderLayout()) 
                 .setRemoveAction { controller.removeDevice() }
                 .disableUpDownActions().createPanel(), BorderLayout.CENTER
         )
-        border = IdeBorderFactory.createTitledBorder(
-            "Devices",
-            false,
-            JBUI.insetsTop(8)
-        ).setShowLine(false)
     }
 
     interface Controller {

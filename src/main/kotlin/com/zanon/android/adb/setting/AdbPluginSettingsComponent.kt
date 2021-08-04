@@ -1,12 +1,15 @@
 package com.zanon.android.adb.setting
 
 import com.intellij.openapi.ui.DialogBuilder
+import com.intellij.openapi.util.Disposer
+import com.intellij.ui.TabbedPaneWrapper
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.util.ui.FormBuilder
 import com.zanon.android.adb.setting.model.Application
 import com.zanon.android.adb.setting.model.Deeplink
 import com.zanon.android.adb.setting.model.Device
 import com.zanon.android.adb.setting.view.*
+import java.awt.Dimension
 import javax.swing.JComponent
 import javax.swing.JPanel
 
@@ -62,12 +65,20 @@ class AdbPluginSettingsComponent :
         }
 
     init {
+        val tabs = TabbedPaneWrapper(Disposer.newDisposable()).apply {
+            addTab("Application", applicationsPanel)
+            addTab("Device", devicesPanel)
+            addTab("Deeplink", deeplinksPanel)
+        }
+        val space = JPanel().apply {
+            minimumSize = Dimension(0, 20)
+        }
+
         panel = FormBuilder.createFormBuilder()
+            .addComponent(space, 1)
             .addComponent(displayAdbNotificationCheckbox, 1)
-            .addComponent(applicationsPanel, 1)
-            .addComponent(devicesPanel, 1)
-            .addComponent(deeplinksPanel, 1)
-            .addComponentFillVertically(JPanel(), 0)
+            .addComponent(space, 1)
+            .addComponentFillVertically(tabs.component, 0)
             .panel
     }
 
