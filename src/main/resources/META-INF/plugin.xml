@@ -68,6 +68,10 @@
             </group>
 
             <group id="DeeplinkMenu" text="Deeplink" popup="true">
+                <action id="com.zanon.android.adb.action.deeplink.DeeplinkCustomAction"
+                        class="com.zanon.android.adb.action.deeplink.DeeplinkCustomAction"
+                        text="Custom Deeplink"/>
+                <separator/>
                 <action id="com.zanon.android.adb.action.deeplink.DeeplinkAllAppsAction"
                         class="com.zanon.android.adb.action.deeplink.DeeplinkAllAppsAction"
                         text="All Apps"

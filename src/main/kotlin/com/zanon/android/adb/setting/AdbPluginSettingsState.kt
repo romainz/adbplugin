@@ -8,6 +8,7 @@ import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.util.xmlb.XmlSerializerUtil
 import com.intellij.util.xmlb.annotations.XCollection
+import com.zanon.android.adb.setting.model.Deeplink
 
 
 /**
@@ -28,6 +29,9 @@ class AdbPluginSettingsState : PersistentStateComponent<AdbPluginSettingsState?>
 
     @XCollection(elementName = "devices")
     var devices: List<Device> = emptyList()
+
+    @XCollection(elementName = "deeplinks")
+    var deeplinks: List<Deeplink> = emptyList()
 
     override fun getState(): AdbPluginSettingsState = this
 

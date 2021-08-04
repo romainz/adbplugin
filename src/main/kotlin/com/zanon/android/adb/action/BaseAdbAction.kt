@@ -49,7 +49,7 @@ abstract class BaseAdbAction : AnAction() {
 
     abstract fun getAdbCommand(): String
 
-    private companion object {
+    protected companion object {
 
         val EXECUTOR: ExecutorService =
             Executors.newCachedThreadPool(ThreadFactoryBuilder().setNameFormat("AdbWifi-%d").build())

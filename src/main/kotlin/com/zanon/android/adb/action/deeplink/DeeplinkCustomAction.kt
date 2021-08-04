@@ -1,10 +1,12 @@
-package com.zanon.android.adb.action.device
+package com.zanon.android.adb.action.deeplink
 
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.table.JBTable
+import com.zanon.android.adb.action.BaseAdbAction
 import com.zanon.android.adb.setting.AdbPluginSettingsState
-import com.zanon.android.adb.util.tablemodel.DeviceTableModel
+import com.zanon.android.adb.util.tablemodel.DeeplinkTableModel
+import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
 import java.awt.Dimension
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
@@ -13,44 +15,50 @@ import javax.swing.*
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 
+class DeeplinkCustomAction : BaseAdbAction() {
 
-abstract class BaseDeviceConnectionAction : com.zanon.android.adb.action.BaseAdbAction() {
-
-    private var deviceIpAddress: String = ""
+    private lateinit var selectedDeeplink: String
 
     override fun actionPerformed(event: AnActionEvent) {
-        val dialog = DeviceSelectionDialog()
+        val dialog = DeeplinkSelectionDialog()
         val dialogOk = dialog.showAndGet()
-        if (dialogOk && dialog.selectedDeviceIpAddress != null) {
-            deviceIpAddress = dialog.selectedDeviceIpAddress!!
+        if (dialogOk && dialog.selectedDeeplinkCommand != null) {
+            selectedDeeplink = dialog.selectedDeeplinkCommand!!
             super.actionPerformed(event)
         }
     }
 
-    final override fun getAdbCommand(): String = getAdbCommand(deviceIpAddress)
 
-    abstract fun getAdbCommand(ipAddress: String): String
+    override fun getAdbCommand(): String =
+        // remove "adb" command because it is added in BaseAdbAction class
+        selectedDeeplink.removePrefix("adb ")
+
 }
 
-private class DeviceSelectionDialog : DialogWrapper(true) {
+private class DeeplinkSelectionDialog : DialogWrapper(true) {
 
-    var selectedDeviceIpAddress: String? = null
+    var selectedDeeplinkCommand: String? = null
     private val textField = JTextField()
 
     init {
         init()
-        title = "Select the device"
+        title = "Select the deeplink"
     }
 
     override fun createCenterPanel(): JComponent {
-        val devices = AdbPluginSettingsState.instance.devices
-        val tableModel = DeviceTableModel(devices.toMutableList())
-        val table = JBTable(tableModel).apply {
+        val deeplinks = AdbPluginSettingsState.instance.deeplinks
+        val tableModel = DeeplinkTableModel(deeplinks.toMutableList())
+        val table = JBTableDoubleClick(tableModel).apply {
             rowHeight = 22
-            selectionModel.addListSelectionListener { listSelectionEvent ->
-                selectedDeviceIpAddress = devices[listSelectionEvent.firstIndex].ip
-                close(OK_EXIT_CODE)
-            }
+            addRowListener(
+                simpleClick = { row ->
+                    textField.text = deeplinks[row].command
+                },
+                doubleClick = { row ->
+                    selectedDeeplinkCommand = deeplinks[row].command
+                    close(OK_EXIT_CODE)
+                }
+            )
         }
         textField.apply {
             document.addDocumentListener(object : DocumentListener {
@@ -59,7 +67,7 @@ private class DeviceSelectionDialog : DialogWrapper(true) {
                 override fun removeUpdate(e: DocumentEvent?) {}
 
                 override fun changedUpdate(e: DocumentEvent?) {
-                    selectedDeviceIpAddress = textField.selectedText
+                    selectedDeeplinkCommand = textField.selectedText
                 }
 
             })
@@ -70,7 +78,7 @@ private class DeviceSelectionDialog : DialogWrapper(true) {
             val constraints1 = GridBagConstraints().apply {
                 weightx = 0.0
             }
-            add(JLabel("Ip address: "), constraints1)
+            add(JLabel("Command: "), constraints1)
             // text field
             val constraints2 = GridBagConstraints().apply {
                 fill = GridBagConstraints.HORIZONTAL
@@ -82,10 +90,10 @@ private class DeviceSelectionDialog : DialogWrapper(true) {
                 weightx = 0.0
                 gridwidth = GridBagConstraints.REMAINDER
             }
-            val button = JButton("Connect").apply {
+            val button = JButton("Send").apply {
                 addActionListener {
                     if (textField.text.isNotEmpty()) {
-                        selectedDeviceIpAddress = textField.text
+                        selectedDeeplinkCommand = textField.text
                         close(OK_EXIT_CODE)
                     }
                 }

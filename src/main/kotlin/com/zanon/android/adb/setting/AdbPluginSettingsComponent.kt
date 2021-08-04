@@ -4,11 +4,9 @@ import com.intellij.openapi.ui.DialogBuilder
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.util.ui.FormBuilder
 import com.zanon.android.adb.setting.model.Application
+import com.zanon.android.adb.setting.model.Deeplink
 import com.zanon.android.adb.setting.model.Device
-import com.zanon.android.adb.setting.view.ApplicationsPanel
-import com.zanon.android.adb.setting.view.DevicesPanel
-import com.zanon.android.adb.setting.view.EditApplicationDialog
-import com.zanon.android.adb.setting.view.EditDeviceDialog
+import com.zanon.android.adb.setting.view.*
 import javax.swing.JComponent
 import javax.swing.JPanel
 
@@ -20,11 +18,13 @@ import javax.swing.JPanel
  */
 class AdbPluginSettingsComponent :
     ApplicationsPanel.Controller,
-    DevicesPanel.Controller {
+    DevicesPanel.Controller,
+    DeeplinksPanel.Controller {
 
     val panel: JPanel
     private val applicationsPanel = ApplicationsPanel(this)
     private val devicesPanel = DevicesPanel(this)
+    private val deeplinksPanel = DeeplinksPanel(this)
 
     private val displayAdbNotificationCheckbox = JBCheckBox("Display the ADB command in a notification")
 
@@ -53,14 +53,25 @@ class AdbPluginSettingsComponent :
             }
         }
 
+    var deeplinks: List<Deeplink>
+        get() = deeplinksPanel.getDeeplinks()
+        set(newDeeplinks) {
+            for (deeplink in newDeeplinks) {
+                deeplinksPanel.addDeeplink(deeplink)
+            }
+        }
+
     init {
         panel = FormBuilder.createFormBuilder()
             .addComponent(displayAdbNotificationCheckbox, 1)
             .addComponent(applicationsPanel, 1)
             .addComponent(devicesPanel, 1)
+            .addComponent(deeplinksPanel, 1)
             .addComponentFillVertically(JPanel(), 0)
             .panel
     }
+
+    // region Applications
 
     override fun editApplication() {
         val item: Application = applicationsPanel.getSelectedItem()
@@ -76,7 +87,7 @@ class AdbPluginSettingsComponent :
     }
 
     private fun editApplication(application: Application?) {
-        val title = "application id"
+        val title = "Application"
         val dialog = EditApplicationDialog(application)
         val builder = DialogBuilder(applicationsPanel)
         builder.setPreferredFocusComponent(dialog.nameTextField)
@@ -97,6 +108,10 @@ class AdbPluginSettingsComponent :
             }
         }
     }
+
+    // endregion
+
+    // region Device
 
     override fun editDevice() {
         editDevice(devicesPanel.getSelectedItem())
@@ -132,4 +147,43 @@ class AdbPluginSettingsComponent :
         }
     }
 
+    // endregion
+
+    // region Deeplink
+
+    override fun editDeeplink() {
+        editDeeplink(deeplinksPanel.getSelectedItem())
+    }
+
+    override fun addDeeplink() {
+        editDeeplink(null)
+    }
+
+    override fun removeDeeplink() {
+        deeplinksPanel.removeSelected()
+    }
+
+    private fun editDeeplink(deeplink: Deeplink?) {
+        val title = "Deeplink"
+        val dialog = EditDeeplinkDialog(deeplink)
+        val builder = DialogBuilder(deeplinksPanel)
+        builder.setCenterPanel(dialog.mainPanel)
+        builder.setTitle(title)
+        builder.showModal(true)
+        if (builder.dialogWrapper.isOK) {
+            val deeplinkName = dialog.nameTextField.text ?: return
+            val deeplinkCommand = dialog.commandTextField.text ?: return
+            if (deeplinkCommand.isNotEmpty()) {
+                if (deeplink == null) {
+                    // add
+                    deeplinksPanel.addDeeplink(Deeplink(deeplinkName, deeplinkCommand))
+                } else {
+                    // edit
+                    deeplinksPanel.editDeeplink(Deeplink(deeplinkName, deeplinkCommand))
+                }
+            }
+        }
+    }
+
+    // endregion
 }
