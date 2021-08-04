@@ -5,6 +5,7 @@ import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.table.JBTable
 import com.zanon.android.adb.setting.AdbPluginSettingsState
 import com.zanon.android.adb.util.tablemodel.DeviceTableModel
+import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
 import java.awt.Dimension
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
@@ -45,12 +46,17 @@ private class DeviceSelectionDialog : DialogWrapper(true) {
     override fun createCenterPanel(): JComponent {
         val devices = AdbPluginSettingsState.instance.devices
         val tableModel = DeviceTableModel(devices.toMutableList())
-        val table = JBTable(tableModel).apply {
+        val table = JBTableDoubleClick(tableModel).apply {
             rowHeight = 22
-            selectionModel.addListSelectionListener { listSelectionEvent ->
-                selectedDeviceIpAddress = devices[listSelectionEvent.firstIndex].ip
-                close(OK_EXIT_CODE)
-            }
+            addRowListener(
+                simpleClick = { row ->
+                    textField.text = devices[row].ip
+                },
+                doubleClick = { row ->
+                    selectedDeviceIpAddress = devices[row].ip
+                    close(OK_EXIT_CODE)
+                }
+            )
         }
         textField.apply {
             document.addDocumentListener(object : DocumentListener {
