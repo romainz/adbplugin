@@ -30,8 +30,15 @@ class DeeplinkCustomAction : BaseAdbAction() {
 
     override fun getAdbCommand(): String =
         // remove "adb" command because it is added in BaseAdbAction class
-        selectedDeeplink.removePrefix("adb ")
+        when {
+            selectedDeeplink.startsWith("http", true) -> BASIC_URL_DEEPLINK_COMMAND + selectedDeeplink
+            else -> selectedDeeplink.removePrefix("adb ")
+        }
 
+
+    private companion object {
+        const val BASIC_URL_DEEPLINK_COMMAND = "shell am start -a android.intent.action.VIEW -d "
+    }
 }
 
 private class DeeplinkSelectionDialog : DialogWrapper(true) {
