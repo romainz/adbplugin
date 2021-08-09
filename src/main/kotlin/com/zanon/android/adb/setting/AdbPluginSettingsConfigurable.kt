@@ -27,6 +27,7 @@ class AdbPluginSettingsConfigurable : Configurable {
                 || (settingsComponent?.applications != settings.applications)
                 || (settingsComponent?.devices != settings.devices)
                 || (settingsComponent?.deeplinks != settings.deeplinks)
+                || (settingsComponent?.inputTexts != settings.inputTexts)
     }
 
     override fun apply() {
@@ -35,6 +36,7 @@ class AdbPluginSettingsConfigurable : Configurable {
         settings.applications = settingsComponent?.applications ?: mutableListOf()
         settings.devices = settingsComponent?.devices ?: mutableListOf()
         settings.deeplinks = settingsComponent?.deeplinks ?: mutableListOf()
+        settings.inputTexts = settingsComponent?.inputTexts ?: mutableListOf()
     }
 
     override fun reset() {
@@ -43,6 +45,7 @@ class AdbPluginSettingsConfigurable : Configurable {
         settingsComponent?.applications = settings.applications
         settingsComponent?.devices = settings.devices
         settingsComponent?.deeplinks = settings.deeplinks
+        settingsComponent?.inputTexts = settings.inputTexts
     }
 
     override fun disposeUIResources() {

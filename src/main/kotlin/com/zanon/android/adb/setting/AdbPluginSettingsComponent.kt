@@ -8,6 +8,7 @@ import com.intellij.util.ui.FormBuilder
 import com.zanon.android.adb.setting.model.Application
 import com.zanon.android.adb.setting.model.Deeplink
 import com.zanon.android.adb.setting.model.Device
+import com.zanon.android.adb.setting.model.InputText
 import com.zanon.android.adb.setting.view.*
 import java.awt.Dimension
 import javax.swing.JComponent
@@ -22,12 +23,14 @@ import javax.swing.JPanel
 class AdbPluginSettingsComponent :
     ApplicationsPanel.Controller,
     DevicesPanel.Controller,
-    DeeplinksPanel.Controller {
+    DeeplinksPanel.Controller,
+    InputTextsPanel.Controller {
 
     val panel: JPanel
     private val applicationsPanel = ApplicationsPanel(this)
     private val devicesPanel = DevicesPanel(this)
     private val deeplinksPanel = DeeplinksPanel(this)
+    private val inputTextsPanel = InputTextsPanel(this)
 
     private val displayAdbNotificationCheckbox = JBCheckBox("Display the ADB command in a notification")
 
@@ -64,11 +67,20 @@ class AdbPluginSettingsComponent :
             }
         }
 
+    var inputTexts: List<InputText>
+        get() = inputTextsPanel.getInputTexts()
+        set(newInputText) {
+            for (inputText in newInputText) {
+                inputTextsPanel.add(inputText)
+            }
+        }
+
     init {
         val tabs = TabbedPaneWrapper(Disposer.newDisposable()).apply {
             addTab("Application", applicationsPanel)
             addTab("Device", devicesPanel)
             addTab("Deeplink", deeplinksPanel)
+            addTab("Input Texts", inputTextsPanel)
         }
         val space = JPanel().apply {
             minimumSize = Dimension(0, 20)
@@ -191,6 +203,44 @@ class AdbPluginSettingsComponent :
                 } else {
                     // edit
                     deeplinksPanel.editDeeplink(Deeplink(deeplinkName, deeplinkCommand))
+                }
+            }
+        }
+    }
+
+    // endregion
+
+    // region Input Text
+
+    override fun editInputText() {
+        editInputText(inputTextsPanel.getSelectedItem())
+    }
+
+    override fun addInputText() {
+        editInputText(null)
+    }
+
+    override fun removeInputText() {
+        inputTextsPanel.removeSelected()
+    }
+
+    private fun editInputText(inputText: InputText?) {
+        val title = "Input Text"
+        val dialog = EditInputTextDialog(inputText)
+        val builder = DialogBuilder(inputTextsPanel)
+        builder.setCenterPanel(dialog.mainPanel)
+        builder.setTitle(title)
+        builder.showModal(true)
+        if (builder.dialogWrapper.isOK) {
+            val name = dialog.nameTextField.text ?: return
+            val text = dialog.textTextField.text ?: return
+            if (name.isNotEmpty()) {
+                if (inputText == null) {
+                    // add
+                    inputTextsPanel.add(InputText(name, text))
+                } else {
+                    // edit
+                    inputTextsPanel.edit(InputText(name, text))
                 }
             }
         }

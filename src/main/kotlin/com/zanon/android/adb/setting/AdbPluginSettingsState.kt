@@ -9,6 +9,7 @@ import com.intellij.openapi.components.Storage
 import com.intellij.util.xmlb.XmlSerializerUtil
 import com.intellij.util.xmlb.annotations.XCollection
 import com.zanon.android.adb.setting.model.Deeplink
+import com.zanon.android.adb.setting.model.InputText
 
 
 /**
@@ -32,6 +33,9 @@ class AdbPluginSettingsState : PersistentStateComponent<AdbPluginSettingsState?>
 
     @XCollection(elementName = "deeplinks")
     var deeplinks: List<Deeplink> = emptyList()
+
+    @XCollection(elementName = "inputTexts")
+    var inputTexts: List<InputText> = emptyList()
 
     override fun getState(): AdbPluginSettingsState = this
 

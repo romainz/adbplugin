@@ -2,7 +2,6 @@ package com.zanon.android.adb.action.deeplink
 
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.ui.DialogWrapper
-import com.intellij.ui.table.JBTable
 import com.zanon.android.adb.action.BaseAdbAction
 import com.zanon.android.adb.setting.AdbPluginSettingsState
 import com.zanon.android.adb.util.tablemodel.DeeplinkTableModel
