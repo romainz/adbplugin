@@ -1,49 +1,54 @@
 package com.zanon.android.adb.action.deeplink
 
+import com.android.ddmlib.IDevice
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.ui.DialogWrapper
 import com.zanon.android.adb.action.BaseAdbAction
 import com.zanon.android.adb.setting.AdbPluginSettingsState
 import com.zanon.android.adb.util.tablemodel.DeeplinkTableModel
 import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
+import com.zanon.android.adb.util.toCurrentDevice
 import java.awt.Dimension
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import java.awt.Insets
 import javax.swing.*
-import javax.swing.event.DocumentEvent
-import javax.swing.event.DocumentListener
 
 class DeeplinkCustomAction : BaseAdbAction() {
 
     private lateinit var selectedDeeplink: String
+    private lateinit var device: IDevice
 
     override fun actionPerformed(event: AnActionEvent) {
-        val dialog = DeeplinkSelectionDialog()
-        val dialogOk = dialog.showAndGet()
-        if (dialogOk && dialog.selectedDeeplinkCommand != null) {
-            selectedDeeplink = dialog.selectedDeeplinkCommand!!
+        val eventProject = event.project
+        eventProject?.toCurrentDevice()?.let { device ->
+            this.device = device
+        }
+        val dialog = DeeplinkSelectionDialog { text ->
+            selectedDeeplink = text
             super.actionPerformed(event)
         }
+        dialog.showAndGet()
     }
-
 
     override fun getAdbCommand(): String =
         // remove "adb" command because it is added in BaseAdbAction class
         when {
-            selectedDeeplink.startsWith("http", true) -> BASIC_URL_DEEPLINK_COMMAND + selectedDeeplink
-            else -> selectedDeeplink.removePrefix("adb ")
+            selectedDeeplink.startsWith("http", true) -> {
+                String.format(BASIC_URL_DEEPLINK_COMMAND, device.serialNumber, selectedDeeplink)
+            }
+            else -> String.format(DEVICE_PARAMETER, device.serialNumber) + selectedDeeplink.removePrefix("adb ")
         }
 
 
     private companion object {
-        const val BASIC_URL_DEEPLINK_COMMAND = "shell am start -a android.intent.action.VIEW -d "
+        const val DEVICE_PARAMETER = "-s %s "
+        const val BASIC_URL_DEEPLINK_COMMAND = "-s %s shell am start -a android.intent.action.VIEW -d %s"
     }
 }
 
-private class DeeplinkSelectionDialog : DialogWrapper(true) {
+private class DeeplinkSelectionDialog(val send: (String) -> Unit) : DialogWrapper(true) {
 
-    var selectedDeeplinkCommand: String? = null
     private val textField = JTextField()
 
     init {
@@ -61,22 +66,9 @@ private class DeeplinkSelectionDialog : DialogWrapper(true) {
                     textField.text = deeplinks[row].command
                 },
                 doubleClick = { row ->
-                    selectedDeeplinkCommand = deeplinks[row].command
-                    close(OK_EXIT_CODE)
+                    deeplinks[row].command?.let { deeplink -> send(deeplink) }
                 }
             )
-        }
-        textField.apply {
-            document.addDocumentListener(object : DocumentListener {
-                override fun insertUpdate(e: DocumentEvent?) {}
-
-                override fun removeUpdate(e: DocumentEvent?) {}
-
-                override fun changedUpdate(e: DocumentEvent?) {
-                    selectedDeeplinkCommand = textField.selectedText
-                }
-
-            })
         }
 
         return JPanel(GridBagLayout()).apply {
@@ -99,8 +91,7 @@ private class DeeplinkSelectionDialog : DialogWrapper(true) {
             val button = JButton("Send").apply {
                 addActionListener {
                     if (textField.text.isNotEmpty()) {
-                        selectedDeeplinkCommand = textField.text
-                        close(OK_EXIT_CODE)
+                        textField.text?.let { deeplink -> send(deeplink) }
                     }
                 }
             }
