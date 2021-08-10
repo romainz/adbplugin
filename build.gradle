@@ -6,6 +6,7 @@ plugins {
 
 group 'com.zanon.android.adb'
 version '1.0'
+sourceCompatibility = 11
 
 repositories {
     mavenCentral()
@@ -18,7 +19,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version '2020.3.3'
+    version '2020.3.4'
     plugins 'android'
 }
 
@@ -27,13 +28,13 @@ runIde {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 patchPluginXml {
-    changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+    version = project.version
+    sinceBuild = '203'
+    untilBuild = '212.*'
 }

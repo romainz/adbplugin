@@ -17,7 +17,7 @@ abstract class BaseAdbAction : AnAction() {
 
     override fun actionPerformed(event: AnActionEvent) {
         EXECUTOR.submit {
-            val androidSdkPath = AndroidSdkUtils.getFirstAndroidModuleSdkData(event.project)?.location?.path
+            val androidSdkPath = AndroidSdkUtils.getFirstAndroidModuleSdkData(event.project)?.path
             if (androidSdkPath.isNullOrBlank()) {
                 event.project.showNotification("Android SDK path not found", NotificationType.ERROR)
             } else {
