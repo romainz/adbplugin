@@ -1,21 +1,24 @@
 package com.zanon.android.adb.util.dialog
 
+import com.intellij.CommonBundle
+import com.intellij.openapi.ui.DialogWrapper
 import com.zanon.android.adb.setting.AdbPluginSettingsState
 import com.zanon.android.adb.util.tablemodel.ApplicationTableModel
-import com.intellij.openapi.ui.DialogWrapper
-import com.intellij.ui.table.JBTable
+import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
 import java.awt.Dimension
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import java.awt.Insets
 import javax.swing.*
-import javax.swing.event.DocumentEvent
-import javax.swing.event.DocumentListener
 
-class ApplicationSelectionDialog(dialogTitle: String, private val button: String) : DialogWrapper(true) {
+class ApplicationSelectionDialog(
+    dialogTitle: String,
+    private val button: String,
+    private val action: (String, Boolean) -> Unit,
+    private val checkBoxTitle: String? = null // set null to hide the checkbox
+) : DialogWrapper(true) {
 
-    var selectedApplicationId: String? = null
-    private val textField = JTextField()
+    private val checkBox = JCheckBox()
 
     init {
         init()
@@ -23,26 +26,27 @@ class ApplicationSelectionDialog(dialogTitle: String, private val button: String
     }
 
     override fun createCenterPanel(): JComponent {
+        val textField = JTextField()
         val applications = AdbPluginSettingsState.instance.applications
         val tableModel = ApplicationTableModel(applications.toMutableList())
-        val table = JBTable(tableModel).apply {
+        val table = JBTableDoubleClick(tableModel).apply {
             rowHeight = 22
-            selectionModel.addListSelectionListener { listSelectionEvent ->
-                selectedApplicationId = applications[listSelectionEvent.firstIndex].id
-                close(OK_EXIT_CODE)
-            }
-        }
-        textField.apply {
-            document.addDocumentListener(object : DocumentListener {
-                override fun insertUpdate(e: DocumentEvent?) {}
-
-                override fun removeUpdate(e: DocumentEvent?) {}
-
-                override fun changedUpdate(e: DocumentEvent?) {
-                    selectedApplicationId = textField.selectedText
+            addRowListener(
+                simpleClick = { rowIndex ->
+                    textField.text = applications[rowIndex].id
+                },
+                doubleClick = { rowIndex ->
+                    action(applications[rowIndex].id, checkBox.isSelected)
                 }
-
-            })
+            )
+        }
+        checkBox.apply {
+            if (checkBoxTitle.isNullOrEmpty()) {
+                isVisible = false
+            } else {
+                text = checkBoxTitle
+                isSelected = true
+            }
         }
 
         return JPanel(GridBagLayout()).apply {
@@ -65,30 +69,46 @@ class ApplicationSelectionDialog(dialogTitle: String, private val button: String
             val button = JButton(button).apply {
                 addActionListener {
                     if (textField.text.isNotEmpty()) {
-                        selectedApplicationId = textField.text
-                        close(OK_EXIT_CODE)
+                        action(textField.text, checkBox.isSelected)
                     }
                 }
             }
             add(button, constraints3)
-            // separator
+            // checkBox
             val constraints4 = GridBagConstraints().apply {
+                fill = GridBagConstraints.HORIZONTAL
+                gridwidth = GridBagConstraints.REMAINDER
+                insets = Insets(5, 0, 0, 0)
+            }
+            add(checkBox, constraints4)
+            // separator
+            val constraints5 = GridBagConstraints().apply {
                 fill = GridBagConstraints.HORIZONTAL
                 gridwidth = GridBagConstraints.REMAINDER
                 insets = Insets(5, 0, 5, 0)
             }
-            add(JSeparator(SwingConstants.HORIZONTAL), constraints4)
+            add(JSeparator(SwingConstants.HORIZONTAL), constraints5)
             // table
-            val constraints5 = GridBagConstraints().apply {
+            val constraints6 = GridBagConstraints().apply {
                 fill = GridBagConstraints.BOTH
                 gridwidth = GridBagConstraints.REMAINDER
             }
             val jScrollPane = JScrollPane(table).apply {
                 preferredSize = PREFERRED_SIZE
             }
-            add(jScrollPane, constraints5)
+            add(jScrollPane, constraints6)
             setResizable(false)
         }
+    }
+
+    override fun createButtonsPanel(buttons: MutableList<out JButton>): JPanel {
+        getButton(okAction)?.apply {
+            text = CommonBundle.getCloseButtonText()
+        }
+        getButton(cancelAction)?.apply {
+            isVisible = false
+        }
+        return super.createButtonsPanel(buttons)
     }
 
     private companion object {
