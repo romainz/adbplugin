@@ -1,18 +1,24 @@
 package com.zanon.android.adb.setting.view
 
 import com.intellij.ui.ToolbarDecorator
-import com.intellij.ui.table.JBTable
 import com.zanon.android.adb.setting.model.Device
 import com.zanon.android.adb.util.tablemodel.DeviceTableModel
+import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
 import java.awt.BorderLayout
 import javax.swing.JPanel
 import javax.swing.ListSelectionModel
 
 
-class DevicesPanel(private val controller: Controller) : JPanel(BorderLayout()) {
+class DevicesPanel(
+    private val controller: Controller,
+    private val doubleClick: () -> Unit
+) : JPanel(BorderLayout()) {
 
     private val tableModel: DeviceTableModel = DeviceTableModel()
-    private val deviceTableComponent: JBTable = JBTable(tableModel)
+    private val deviceTableComponent: JBTableDoubleClick = JBTableDoubleClick(tableModel)
+        .apply {
+            addRowListener(doubleClick = { doubleClick() })
+        }
 
     fun getDevices(): List<Device> {
         val list = mutableListOf<Device>()

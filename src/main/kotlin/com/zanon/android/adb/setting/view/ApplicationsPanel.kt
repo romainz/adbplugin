@@ -1,18 +1,23 @@
 package com.zanon.android.adb.setting.view
 
 import com.intellij.ui.ToolbarDecorator
-import com.intellij.ui.table.JBTable
 import com.zanon.android.adb.setting.model.Application
 import com.zanon.android.adb.util.tablemodel.ApplicationTableModel
+import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
 import java.awt.BorderLayout
-import java.awt.Dimension
 import javax.swing.JPanel
 import javax.swing.ListSelectionModel
 
-class ApplicationsPanel(private val controller: Controller) : JPanel(BorderLayout()) {
+class ApplicationsPanel(
+    private val controller: Controller,
+    private val doubleClick: () -> Unit
+) : JPanel(BorderLayout()) {
 
     private val tableModel: ApplicationTableModel = ApplicationTableModel()
-    private val applicationListComponent: JBTable = JBTable(tableModel)
+    private val applicationListComponent: JBTableDoubleClick = JBTableDoubleClick(tableModel)
+        .apply {
+            addRowListener(doubleClick = { doubleClick() })
+        }
 
     fun getApplications(): List<Application> {
         val list = mutableListOf<Application>()

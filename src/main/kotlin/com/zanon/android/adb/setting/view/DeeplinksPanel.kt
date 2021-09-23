@@ -1,18 +1,24 @@
 package com.zanon.android.adb.setting.view
 
 import com.intellij.ui.ToolbarDecorator
-import com.intellij.ui.table.JBTable
 import com.zanon.android.adb.setting.model.Deeplink
 import com.zanon.android.adb.util.tablemodel.DeeplinkTableModel
+import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
 import java.awt.BorderLayout
 import javax.swing.JPanel
 import javax.swing.ListSelectionModel
 
 
-class DeeplinksPanel(private val controller: Controller) : JPanel(BorderLayout()) {
+class DeeplinksPanel(
+    private val controller: Controller,
+    private val doubleClick: () -> Unit
+) : JPanel(BorderLayout()) {
 
     private val tableModel: DeeplinkTableModel = DeeplinkTableModel()
-    private val deeplinkTableComponent: JBTable = JBTable(tableModel)
+    private val deeplinkTableComponent: JBTableDoubleClick = JBTableDoubleClick(tableModel)
+        .apply {
+            addRowListener(doubleClick = { doubleClick() })
+        }
 
     fun getDeeplinks(): List<Deeplink> {
         val list = mutableListOf<Deeplink>()

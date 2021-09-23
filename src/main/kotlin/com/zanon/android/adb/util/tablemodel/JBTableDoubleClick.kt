@@ -7,12 +7,12 @@ import javax.swing.table.TableModel
 
 class JBTableDoubleClick(model: TableModel) : JBTable(model) {
 
-    fun addRowListener(simpleClick: (Int) -> Unit, doubleClick: (Int) -> Unit) {
+    fun addRowListener(simpleClick: ((Int) -> Unit)? = null, doubleClick: (Int) -> Unit) {
         addMouseListener(object : MouseAdapter() {
 
             override fun mouseClicked(e: MouseEvent?) {
                 when (e?.clickCount) {
-                    1 -> simpleClick(selectedRow)
+                    1 -> simpleClick?.invoke(selectedRow)
                     2 -> doubleClick(selectedRow)
                 }
             }

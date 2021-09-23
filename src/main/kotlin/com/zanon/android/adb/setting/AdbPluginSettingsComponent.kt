@@ -27,10 +27,10 @@ class AdbPluginSettingsComponent :
     InputTextsPanel.Controller {
 
     val panel: JPanel
-    private val applicationsPanel = ApplicationsPanel(this)
-    private val devicesPanel = DevicesPanel(this)
-    private val deeplinksPanel = DeeplinksPanel(this)
-    private val inputTextsPanel = InputTextsPanel(this)
+    private val applicationsPanel = ApplicationsPanel(controller = this, doubleClick = { editApplication() })
+    private val devicesPanel = DevicesPanel(controller = this, doubleClick = { editDevice() })
+    private val deeplinksPanel = DeeplinksPanel(controller = this, doubleClick = { editDeeplink() })
+    private val inputTextsPanel = InputTextsPanel(controller = this, doubleClick = { editInputText() })
 
     private val displayAdbNotificationCheckbox = JBCheckBox("Display the ADB command in a notification")
 

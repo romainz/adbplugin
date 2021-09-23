@@ -1,18 +1,24 @@
 package com.zanon.android.adb.setting.view
 
 import com.intellij.ui.ToolbarDecorator
-import com.intellij.ui.table.JBTable
 import com.zanon.android.adb.setting.model.InputText
 import com.zanon.android.adb.util.tablemodel.InputTextTableModel
+import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
 import java.awt.BorderLayout
 import javax.swing.JPanel
 import javax.swing.ListSelectionModel
 
 
-class InputTextsPanel(private val controller: Controller) : JPanel(BorderLayout()) {
+class InputTextsPanel(
+    private val controller: Controller,
+    private val doubleClick: () -> Unit
+) : JPanel(BorderLayout()) {
 
     private val tableModel: InputTextTableModel = InputTextTableModel()
-    private val tableComponent: JBTable = JBTable(tableModel)
+    private val tableComponent: JBTableDoubleClick = JBTableDoubleClick(tableModel)
+        .apply {
+            addRowListener(doubleClick = { doubleClick() })
+        }
 
     fun getInputTexts(): List<InputText> {
         val list = mutableListOf<InputText>()
