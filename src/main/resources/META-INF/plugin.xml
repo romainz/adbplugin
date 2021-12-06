@@ -2,8 +2,45 @@
     <id>com.zanon.android.adb.adb-plugin</id>
     <name>ADB +</name>
     <vendor>Romain ZANON</vendor>
-
-    <!--    <description>ADB plugin</description>-->
+    <description>
+        <![CDATA[
+        Adds the following ADB commands to Android Studio.
+        You will be able to save and reuse easily custom deeplink, device ip to connect, input texts
+        <br />
+        <ul>
+            <li>Device
+                <ul>
+                    <li>connect</li>
+                    <li>disconnect</li>
+                    <li>custom input text</li>
+                    <li>toggle layout bounds</li>
+                    <li>stand by</li>
+                    <li>enable/disable offline mode</li>
+                    <li>enable/disable wifi</li>
+                    <li>enable/disable data</li>
+                </ul>
+            </li>
+            <li>Deeplink
+                <ul>
+                    <li>to android development settings page</li>
+                    <li>to android settings page</li>
+                    <li>to android device settings page</li>
+                    <li>to android language settings page</li>
+                    <li>to android wifi settings page</li>
+                    <li>to custom application / setting page</li>
+                </ul>
+            </li>
+            <li>Application
+                <ul>
+                    <li>wipe data</li>
+                    <li>uninstall</li>
+                    <li>force stop</li>
+                    <li>start</li>
+                </ul>
+            </li>
+        </ul>
+        ]]>
+    </description>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
