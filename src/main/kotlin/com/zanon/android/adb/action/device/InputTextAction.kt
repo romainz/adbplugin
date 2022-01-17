@@ -4,9 +4,9 @@ import android.view.KeyEvent
 import com.android.ddmlib.IDevice
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.DialogWrapper
 import com.zanon.android.adb.action.BaseShellAction
 import com.zanon.android.adb.setting.AdbPluginSettingsState
+import com.zanon.android.adb.util.dialog.BaseCloseDialogWrapper
 import com.zanon.android.adb.util.tablemodel.InputTextTableModel
 import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
 import java.awt.Dimension
@@ -46,7 +46,7 @@ class InputTextAction : BaseShellAction() {
 private class InputTextSelectionDialog(
     val sendDeeplink: (String) -> Unit,
     val sendKeyEvent: (Int) -> Unit
-) : DialogWrapper(true) {
+) : BaseCloseDialogWrapper() {
 
     private val textField = JTextField()
 

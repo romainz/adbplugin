@@ -2,9 +2,9 @@ package com.zanon.android.adb.action.deeplink
 
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.ui.DialogWrapper
 import com.zanon.android.adb.action.BaseAdbAction
 import com.zanon.android.adb.setting.AdbPluginSettingsState
+import com.zanon.android.adb.util.dialog.BaseCloseDialogWrapper
 import com.zanon.android.adb.util.tablemodel.DeeplinkTableModel
 import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
 import com.zanon.android.adb.util.toCurrentDevice
@@ -47,7 +47,7 @@ class DeeplinkCustomAction : BaseAdbAction() {
     }
 }
 
-private class DeeplinkSelectionDialog(val send: (String) -> Unit) : DialogWrapper(true) {
+private class DeeplinkSelectionDialog(val send: (String) -> Unit) : BaseCloseDialogWrapper() {
 
     private val textField = JTextField()
 

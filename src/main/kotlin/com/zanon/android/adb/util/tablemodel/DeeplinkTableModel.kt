@@ -22,7 +22,7 @@ class DeeplinkTableModel(
     }
 
     private companion object {
-        val COLUMN_TITLE = arrayOf("Name", "Command")
+        val COLUMN_TITLE = arrayOf("Name", "Deeplink")
     }
 
     fun addDeeplink(deeplink: Deeplink) {

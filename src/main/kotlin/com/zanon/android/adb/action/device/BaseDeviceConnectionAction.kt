@@ -1,9 +1,8 @@
 package com.zanon.android.adb.action.device
 
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.ui.DialogWrapper
-import com.intellij.ui.table.JBTable
 import com.zanon.android.adb.setting.AdbPluginSettingsState
+import com.zanon.android.adb.util.dialog.BaseCloseDialogWrapper
 import com.zanon.android.adb.util.tablemodel.DeviceTableModel
 import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
 import java.awt.Dimension
@@ -33,7 +32,7 @@ abstract class BaseDeviceConnectionAction : com.zanon.android.adb.action.BaseAdb
     abstract fun getAdbCommand(ipAddress: String): String
 }
 
-private class DeviceSelectionDialog : DialogWrapper(true) {
+private class DeviceSelectionDialog : BaseCloseDialogWrapper() {
 
     var selectedDeviceIpAddress: String? = null
     private val textField = JTextField()
@@ -92,7 +91,6 @@ private class DeviceSelectionDialog : DialogWrapper(true) {
                 addActionListener {
                     if (textField.text.isNotEmpty()) {
                         selectedDeviceIpAddress = textField.text
-                        close(OK_EXIT_CODE)
                     }
                 }
             }

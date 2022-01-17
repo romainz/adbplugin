@@ -1,7 +1,5 @@
 package com.zanon.android.adb.util.dialog
 
-import com.intellij.CommonBundle
-import com.intellij.openapi.ui.DialogWrapper
 import com.zanon.android.adb.setting.AdbPluginSettingsState
 import com.zanon.android.adb.util.tablemodel.ApplicationTableModel
 import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
@@ -16,7 +14,7 @@ class ApplicationSelectionDialog(
     private val button: String,
     private val action: (String, Boolean) -> Unit,
     private val checkBoxTitle: String? = null // set null to hide the checkbox
-) : DialogWrapper(true) {
+) : BaseCloseDialogWrapper() {
 
     private val checkBox = JCheckBox()
 
@@ -99,16 +97,6 @@ class ApplicationSelectionDialog(
             add(jScrollPane, constraints6)
             setResizable(false)
         }
-    }
-
-    override fun createButtonsPanel(buttons: MutableList<out JButton>): JPanel {
-        getButton(okAction)?.apply {
-            text = CommonBundle.getCloseButtonText()
-        }
-        getButton(cancelAction)?.apply {
-            isVisible = false
-        }
-        return super.createButtonsPanel(buttons)
     }
 
     private companion object {
