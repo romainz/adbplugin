@@ -4,6 +4,7 @@ import android.view.KeyEvent
 import com.android.ddmlib.IDevice
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.project.Project
+import com.intellij.ui.components.panels.VerticalLayout
 import com.zanon.android.adb.action.BaseShellAction
 import com.zanon.android.adb.setting.AdbPluginSettingsState
 import com.zanon.android.adb.util.dialog.BaseCloseDialogWrapper
@@ -134,7 +135,100 @@ private class InputTextSelectionDialog(
     }
 
     private fun createRightPanel(): JPanel {
-        return JPanel(GridBagLayout()).also { mainPanel ->
+        val panelNumbers = JPanel(GridBagLayout()).also { mainPanel ->
+            // Numbers
+            JButton("1").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_1) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 0
+                    gridy = 0
+                }
+                mainPanel.add(this, constraints)
+            }
+            JButton("2").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_2) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 1
+                    gridy = 0
+                }
+                mainPanel.add(this, constraints)
+            }
+            JButton("3").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_3) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 2
+                    gridy = 0
+                }
+                mainPanel.add(this, constraints)
+            }
+            JButton("4").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_4) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 0
+                    gridy = 1
+                }
+                mainPanel.add(this, constraints)
+            }
+            JButton("5").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_5) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 1
+                    gridy = 1
+                }
+                mainPanel.add(this, constraints)
+            }
+            JButton("6").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_6) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 2
+                    gridy = 1
+                }
+                mainPanel.add(this, constraints)
+            }
+            JButton("7").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_7) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 0
+                    gridy = 2
+                }
+                mainPanel.add(this, constraints)
+            }
+            JButton("8").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_8) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 1
+                    gridy = 2
+                }
+                mainPanel.add(this, constraints)
+            }
+            JButton("9").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_9) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 2
+                    gridy = 2
+                }
+                mainPanel.add(this, constraints)
+            }
+            JButton("0").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_0) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 1
+                    gridy = 3
+                }
+                mainPanel.add(this, constraints)
+            }
+        }
+        val panelDirections = JPanel(GridBagLayout()).also { mainPanel ->
             // Up
             JButton(AllIcons.General.ArrowUp).apply {
                 addActionListener { sendKeyEvent(KeyEvent.KEYCODE_DPAD_UP) }
@@ -195,6 +289,11 @@ private class InputTextSelectionDialog(
                 }
                 mainPanel.add(this, constraints)
             }
+        }
+        return JPanel(VerticalLayout(5)).apply {
+            add(panelDirections)
+            add(JSeparator(SwingConstants.HORIZONTAL))
+            add(panelNumbers)
         }
     }
 
