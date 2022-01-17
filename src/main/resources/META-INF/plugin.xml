@@ -41,6 +41,12 @@
         </ul>
         ]]>
     </description>
+    <change-notes>
+        - rename plugin to "ADB Tools" to easily find it
+        - move plugin settings into Preferences > Other Settings
+        - add numbers to the input text keyboard
+        - improve dialogs with a close button
+    </change-notes>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
