@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.zanon.android.adb.adb-plugin</id>
-    <name>ADB +</name>
+    <name>ADB Tools</name>
     <vendor>Romain ZANON</vendor>
     <description>
         <![CDATA[
@@ -52,7 +52,7 @@
     </extensions>
 
     <actions>
-        <group id="AdbMenu" text="ADB+" popup="false">
+        <group id="AdbMenu" text="ADB Tools" popup="false">
             <add-to-group group-id="MainMenu"/>
 
             <group id="DeviceMenu" text="Device" popup="true">
@@ -156,10 +156,10 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationConfigurable
-                parentId="tools"
+                parentId="other-setting"
                 instance="com.zanon.android.adb.setting.AdbPluginSettingsConfigurable"
                 id="org.intellij.sdk.settings.AppSettingsConfigurable"
-                displayName="ADB+"/>
+                displayName="ADB Tools"/>
         <applicationService
                 serviceImplementation="com.zanon.android.adb.setting.AdbPluginSettingsState"/>
     </extensions>

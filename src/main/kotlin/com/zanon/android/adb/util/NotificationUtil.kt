@@ -8,7 +8,7 @@ import com.intellij.openapi.project.Project
 fun Project?.showNotification(message: String, type: NotificationType, notificationId: String = "default_id") {
     NotificationGroup(notificationId, NotificationDisplayType.BALLOON)
         .createNotification(
-            "ADB+ Plugin",
+            "ADB Tools Plugin",
             message,
             type,
             null

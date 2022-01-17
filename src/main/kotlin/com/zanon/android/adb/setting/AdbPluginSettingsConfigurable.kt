@@ -10,7 +10,7 @@ class AdbPluginSettingsConfigurable : Configurable {
 
     private var settingsComponent: AdbPluginSettingsComponent? = null
 
-    override fun getDisplayName(): String = "ADB+ Settings"
+    override fun getDisplayName(): String = "ADB Tools Settings"
 
     override fun createComponent(): JComponent? {
         settingsComponent = AdbPluginSettingsComponent()
