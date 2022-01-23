@@ -142,6 +142,9 @@
             </group>
 
             <group id="ApplicationMenu" text="Application" popup="true">
+                <action id="com.zanon.android.adb.action.application.InstallAction"
+                        class="com.zanon.android.adb.action.application.InstallAction"
+                        text="Install"/>
                 <action id="com.zanon.android.adb.action.application.WipeDataAction"
                         class="com.zanon.android.adb.action.application.WipeDataAction"
                         text="Wipe Data"/>
