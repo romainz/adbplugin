@@ -32,6 +32,7 @@
             </li>
             <li>Application
                 <ul>
+                    <li>install</li>
                     <li>wipe data</li>
                     <li>uninstall</li>
                     <li>force stop</li>
@@ -42,10 +43,23 @@
         ]]>
     </description>
     <change-notes>
-        - rename plugin to "ADB Tools" to easily find it
-        - move plugin settings into Preferences > Other Settings
-        - add numbers to the input text keyboard
-        - improve dialogs with a close button
+        <![CDATA[
+        <ul>
+            <li>1.2
+                <ul>
+                    <li>add install apk menu from file chooser</li>
+                </ul>
+            </li>
+            <li>1.1
+                <ul>
+                    <li>rename plugin to "ADB Tools" to easily find it</li>
+                    <li>move plugin settings into Preferences > Other Settings</li>
+                    <li>add numbers to the input text keyboard</li>
+                    <li>improve dialogs with a close button</li>
+                </ul>
+            </li>
+        </ul>
+        ]]>
     </change-notes>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html

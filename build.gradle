@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'com.zanon.android.adb'
-version '1.1'
+version '1.2'
 sourceCompatibility = 11
 
 repositories {
