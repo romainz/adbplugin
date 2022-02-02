@@ -10,8 +10,6 @@ import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import java.awt.Insets
 import javax.swing.*
-import javax.swing.event.DocumentEvent
-import javax.swing.event.DocumentListener
 
 
 abstract class BaseDeviceConnectionAction : com.zanon.android.adb.action.BaseAdbAction() {
@@ -19,12 +17,13 @@ abstract class BaseDeviceConnectionAction : com.zanon.android.adb.action.BaseAdb
     private var deviceIpAddress: String = ""
 
     override fun actionPerformed(event: AnActionEvent) {
-        val dialog = DeviceSelectionDialog()
-        val dialogOk = dialog.showAndGet()
-        if (dialogOk && dialog.selectedDeviceIpAddress != null) {
-            deviceIpAddress = dialog.selectedDeviceIpAddress!!
-            super.actionPerformed(event)
-        }
+        val dialog = DeviceSelectionDialog(
+            sendDeviceIp = { deviceIp ->
+                deviceIpAddress = deviceIp
+                super.actionPerformed(event)
+            }
+        )
+        dialog.showAndGet()
     }
 
     final override fun getAdbCommand(): String = getAdbCommand(deviceIpAddress)
@@ -32,9 +31,10 @@ abstract class BaseDeviceConnectionAction : com.zanon.android.adb.action.BaseAdb
     abstract fun getAdbCommand(ipAddress: String): String
 }
 
-private class DeviceSelectionDialog : BaseCloseDialogWrapper() {
+private class DeviceSelectionDialog(
+    val sendDeviceIp: (String) -> Unit
+) : BaseCloseDialogWrapper() {
 
-    var selectedDeviceIpAddress: String? = null
     private val textField = JTextField()
 
     init {
@@ -52,22 +52,11 @@ private class DeviceSelectionDialog : BaseCloseDialogWrapper() {
                     textField.text = devices[row].ip
                 },
                 doubleClick = { row ->
-                    selectedDeviceIpAddress = devices[row].ip
-                    close(OK_EXIT_CODE)
+                    devices[row].ip?.let { ip ->
+                        sendDeviceIp(ip)
+                    }
                 }
             )
-        }
-        textField.apply {
-            document.addDocumentListener(object : DocumentListener {
-                override fun insertUpdate(e: DocumentEvent?) {}
-
-                override fun removeUpdate(e: DocumentEvent?) {}
-
-                override fun changedUpdate(e: DocumentEvent?) {
-                    selectedDeviceIpAddress = textField.selectedText
-                }
-
-            })
         }
 
         return JPanel(GridBagLayout()).apply {
@@ -90,7 +79,7 @@ private class DeviceSelectionDialog : BaseCloseDialogWrapper() {
             val button = JButton("Connect").apply {
                 addActionListener {
                     if (textField.text.isNotEmpty()) {
-                        selectedDeviceIpAddress = textField.text
+                        sendDeviceIp(textField.text)
                     }
                 }
             }
