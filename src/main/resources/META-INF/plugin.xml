@@ -45,6 +45,12 @@
     <change-notes>
         <![CDATA[
         <ul>
+            <li>1.3
+                <ul>
+                    <li>fix connect button (thanks Max)</li>
+                    <li>input text - add new remote buttons for the player (thanks Lilian)</li>
+                </ul>
+            </li>
             <li>1.2
                 <ul>
                     <li>add install apk menu from file chooser</li>
