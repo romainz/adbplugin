@@ -4,6 +4,7 @@ import android.view.KeyEvent
 import com.android.ddmlib.IDevice
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.project.Project
+import com.intellij.ui.IconManager
 import com.intellij.ui.components.panels.VerticalLayout
 import com.zanon.android.adb.action.BaseShellAction
 import com.zanon.android.adb.setting.AdbPluginSettingsState
@@ -290,10 +291,94 @@ private class InputTextSelectionDialog(
                 mainPanel.add(this, constraints)
             }
         }
+        val panelPlayer= JPanel(GridBagLayout()).also { mainPanel ->
+            // Play
+            JButton("Play").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 0
+                    gridy = 0
+                }
+                mainPanel.add(this, constraints)
+            }
+            // Pause
+            JButton("Pause").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_MEDIA_PAUSE) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 1
+                    gridy = 0
+                }
+                mainPanel.add(this, constraints)
+            }
+            // Rewind
+            JButton("RW").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_MEDIA_REWIND) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 0
+                    gridy = 1
+                }
+                mainPanel.add(this, constraints)
+            }
+            // Fast forward
+            JButton("FF").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 1
+                    gridy = 1
+                }
+                mainPanel.add(this, constraints)
+            }
+            // Channel-
+            JButton("CH-").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_CHANNEL_DOWN) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 0
+                    gridy = 2
+                }
+                mainPanel.add(this, constraints)
+            }
+            // Channel+
+            JButton("CH+").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_CHANNEL_UP) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 1
+                    gridy = 2
+                }
+                mainPanel.add(this, constraints)
+            }
+            // Guide TV
+            JButton("GUIDE").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_GUIDE) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 0
+                    gridy = 3
+                }
+                mainPanel.add(this, constraints)
+            }
+            // Info
+            JButton("INFO").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_INFO) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 1
+                    gridy = 3
+                }
+                mainPanel.add(this, constraints)
+            }
+        }
         return JPanel(VerticalLayout(5)).apply {
             add(panelDirections)
             add(JSeparator(SwingConstants.HORIZONTAL))
             add(panelNumbers)
+            add(JSeparator(SwingConstants.HORIZONTAL))
+            add(panelPlayer)
         }
     }
 
