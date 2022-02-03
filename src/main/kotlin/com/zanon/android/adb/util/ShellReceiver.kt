@@ -1,10 +1,11 @@
 package com.zanon.android.adb.util
 
+import com.android.ddmlib.MultiLineReceiver
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.project.Project
 import org.jetbrains.android.util.AndroidOutputReceiver
 
-class ShellReceiver(val project: Project) : AndroidOutputReceiver() {
+class ShellReceiver(val project: Project) : MultiLineReceiver() {
 
     private val output: StringBuilder = StringBuilder()
     private var notificationType = NotificationType.INFORMATION
@@ -16,11 +17,13 @@ class ShellReceiver(val project: Project) : AndroidOutputReceiver() {
     }
 
     override fun processNewLines(lines: Array<out String>?) {
-        super.processNewLines(lines)
+        for (line in lines!!) {
+            processNewLine(line)
+        }
         project.showNotification(output.toString(), notificationType, NOTIFICATION_ID)
     }
 
-    override fun processNewLine(line: String) {
+    private fun processNewLine(line: String) {
         output.appendln(line)
         when {
             line.startsWith(PREFIX_MESSAGE_ERROR) -> notificationType = NotificationType.ERROR

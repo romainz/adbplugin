@@ -1,9 +1,7 @@
 package com.zanon.android.adb.setting.view
 
-import com.android.tools.idea.uibuilder.handlers.constraint.draw.DrawConnection
 import com.zanon.android.adb.setting.model.Application
 import java.awt.BorderLayout
-import java.awt.Dimension
 import java.awt.GridLayout
 import javax.swing.JLabel
 import javax.swing.JPanel
@@ -17,7 +15,7 @@ class EditApplicationDialog(application: Application?) {
 
     init {
         mainPanel.apply {
-            layout = GridLayout(0, 2, DrawConnection.GAP, DrawConnection.GAP)
+            layout = GridLayout(0, 2)
             add(JLabel("Name: "))
             add(nameTextField)
             add(JLabel("Package name: "))

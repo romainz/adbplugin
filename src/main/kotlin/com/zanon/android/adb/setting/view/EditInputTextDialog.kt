@@ -1,6 +1,5 @@
 package com.zanon.android.adb.setting.view
 
-import com.android.tools.idea.uibuilder.handlers.constraint.draw.DrawConnection.GAP
 import com.zanon.android.adb.setting.model.InputText
 import java.awt.BorderLayout
 import java.awt.GridLayout
@@ -16,7 +15,7 @@ class EditInputTextDialog(inputText: InputText?) {
 
     init {
         mainPanel.apply {
-            layout = GridLayout(0, 2, GAP, GAP)
+            layout = GridLayout(0, 2)
             add(JLabel("Name: "))
             add(nameTextField)
             add(JLabel("Text: "))
