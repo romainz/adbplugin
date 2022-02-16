@@ -17,6 +17,7 @@ class ApplicationSelectionDialog(
 ) : BaseCloseDialogWrapper() {
 
     private val checkBox = JCheckBox()
+    private val textField = JTextField()
 
     init {
         init()
@@ -24,7 +25,6 @@ class ApplicationSelectionDialog(
     }
 
     override fun createCenterPanel(): JComponent {
-        val textField = JTextField()
         val applications = AdbPluginSettingsState.instance.applications
         val tableModel = ApplicationTableModel(applications.toMutableList())
         val table = JBTableDoubleClick(tableModel).apply {
@@ -98,6 +98,8 @@ class ApplicationSelectionDialog(
             setResizable(false)
         }
     }
+
+    override fun getPreferredFocusedComponent(): JComponent = textField
 
     private companion object {
         val PREFERRED_SIZE = Dimension(500, 200)

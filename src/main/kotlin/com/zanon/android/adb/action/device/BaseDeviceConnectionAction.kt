@@ -104,6 +104,8 @@ private class DeviceSelectionDialog(
         }
     }
 
+    override fun getPreferredFocusedComponent(): JComponent = textField
+
     private companion object {
         val PREFERRED_SIZE = Dimension(400, 200)
     }

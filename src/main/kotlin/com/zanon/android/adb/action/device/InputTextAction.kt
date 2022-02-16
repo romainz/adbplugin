@@ -382,6 +382,8 @@ private class InputTextSelectionDialog(
         }
     }
 
+    override fun getPreferredFocusedComponent(): JComponent = textField
+
     private companion object {
         val PREFERRED_SIZE = Dimension(600, 500)
     }
