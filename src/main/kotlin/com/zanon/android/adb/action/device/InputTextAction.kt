@@ -34,7 +34,7 @@ class InputTextAction : BaseShellAction() {
                 this.text = keyCode.toString()
                 super.process(project, device)
             })
-        dialog.showAndGet()
+        dialog.show()
     }
 
     override fun getShellCommand(): String =

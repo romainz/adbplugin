@@ -7,6 +7,10 @@ import javax.swing.JPanel
 
 abstract class BaseCloseDialogWrapper : DialogWrapper(true)  {
 
+    init {
+        isModal = false
+    }
+
     override fun createButtonsPanel(buttons: MutableList<out JButton>): JPanel {
         getButton(okAction)?.apply {
             text = CommonBundle.getCloseButtonText()

@@ -28,7 +28,7 @@ class DeeplinkCustomAction : BaseAdbAction() {
             selectedDeeplink = text
             super.actionPerformed(event)
         }
-        dialog.showAndGet()
+        dialog.show()
     }
 
     override fun getAdbCommand(): String =

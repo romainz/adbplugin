@@ -23,7 +23,7 @@ abstract class BaseDeviceConnectionAction : com.zanon.android.adb.action.BaseAdb
                 super.actionPerformed(event)
             }
         )
-        dialog.showAndGet()
+        dialog.show()
     }
 
     final override fun getAdbCommand(): String = getAdbCommand(deviceIpAddress)
