@@ -82,6 +82,9 @@ private class DeeplinkSelectionDialog(val send: (String) -> Unit) : BaseCloseDia
                 fill = GridBagConstraints.HORIZONTAL
                 weightx = 1.0
             }
+            textField.addActionListener{ actionEvent ->
+                send(actionEvent.actionCommand)
+            }
             add(textField, constraints2)
             // button
             val constraints3 = GridBagConstraints().apply {

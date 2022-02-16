@@ -7,6 +7,7 @@ import java.awt.Dimension
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import java.awt.Insets
+import java.awt.event.ActionEvent
 import javax.swing.*
 
 class ApplicationSelectionDialog(
@@ -57,6 +58,9 @@ class ApplicationSelectionDialog(
             val constraints2 = GridBagConstraints().apply {
                 fill = GridBagConstraints.HORIZONTAL
                 weightx = 1.0
+            }
+            textField.addActionListener{ actionEvent ->
+                action(actionEvent.actionCommand, checkBox.isSelected)
             }
             add(textField, constraints2)
             // button

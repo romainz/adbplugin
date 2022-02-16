@@ -101,6 +101,9 @@ private class InputTextSelectionDialog(
                 fill = GridBagConstraints.HORIZONTAL
                 weightx = 1.0
             }
+            textField.addActionListener{ actionEvent ->
+                sendDeeplink(actionEvent.actionCommand)
+            }
             add(textField, constraints2)
             // button
             val constraints3 = GridBagConstraints().apply {

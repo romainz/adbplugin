@@ -70,6 +70,9 @@ private class DeviceSelectionDialog(
                 fill = GridBagConstraints.HORIZONTAL
                 weightx = 1.0
             }
+            textField.addActionListener{ actionEvent ->
+                sendDeviceIp(actionEvent.actionCommand)
+            }
             add(textField, constraints2)
             // button
             val constraints3 = GridBagConstraints().apply {
