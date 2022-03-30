@@ -26,7 +26,7 @@ class InstallAction : com.zanon.android.adb.action.BaseAdbAction() {
         }
     }
 
-    override fun getAdbCommand(): String = "-s ${device.serialNumber} install $apkPath"
+    override fun getAdbCommand(): String = "-s ${device.serialNumber} install -r -t -d $apkPath"
 
 }
 

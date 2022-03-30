@@ -45,6 +45,11 @@
     <change-notes>
         <![CDATA[
         <ul>
+            <li>1.3.3
+                <ul>
+                    <li>add parameters to the install action (-r -t -d)</li>
+                </ul>
+            </li>
             <li>1.3.2
                 <ul>
                     <li>improve dialogs</li>
