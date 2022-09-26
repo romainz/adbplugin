@@ -45,6 +45,11 @@
     <change-notes>
         <![CDATA[
         <ul>
+            <li>1.3.4
+                <ul>
+                    <li>compatibility with Android Studio Dolphin</li>
+                </ul>
+            </li>
             <li>1.3.3
                 <ul>
                     <li>add parameters to the install action (-r -t -d)</li>
