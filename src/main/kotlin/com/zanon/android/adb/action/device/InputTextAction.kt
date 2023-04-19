@@ -1,12 +1,11 @@
 package com.zanon.android.adb.action.device
 
-import android.view.KeyEvent
 import com.android.ddmlib.IDevice
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.project.Project
-import com.intellij.ui.IconManager
 import com.intellij.ui.components.panels.VerticalLayout
 import com.zanon.android.adb.action.BaseShellAction
+import com.zanon.android.adb.android.KeyEvent
 import com.zanon.android.adb.setting.AdbPluginSettingsState
 import com.zanon.android.adb.util.dialog.BaseCloseDialogWrapper
 import com.zanon.android.adb.util.tablemodel.InputTextTableModel

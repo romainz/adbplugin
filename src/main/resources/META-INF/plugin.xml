@@ -45,6 +45,11 @@
     <change-notes>
         <![CDATA[
         <ul>
+            <li>1.3.6
+                <ul>
+                    <li>compatibility with Android Studio Flamingo</li>
+                </ul>
+            </li>
             <li>1.3.5
                 <ul>
                     <li>compatibility with Android Studio Eel</li>

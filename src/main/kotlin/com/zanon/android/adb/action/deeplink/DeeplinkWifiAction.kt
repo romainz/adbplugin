@@ -1,7 +1,7 @@
 package com.zanon.android.adb.action.deeplink
 
-import android.provider.Settings
 import com.zanon.android.adb.action.BaseShellAction
+import com.zanon.android.adb.android.Settings
 
 class DeeplinkWifiAction : BaseShellAction() {
 
