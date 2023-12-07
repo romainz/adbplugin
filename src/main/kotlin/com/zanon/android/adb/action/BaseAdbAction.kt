@@ -1,12 +1,12 @@
 package com.zanon.android.adb.action
 
-import com.zanon.android.adb.setting.AdbPluginSettingsState
-import com.zanon.android.adb.util.showNotification
 import com.google.common.util.concurrent.ThreadFactoryBuilder
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.Project
+import com.zanon.android.adb.setting.AdbPluginSettingsState
+import com.zanon.android.adb.util.showNotification
 import org.jetbrains.android.sdk.AndroidSdkUtils
 import java.io.BufferedReader
 import java.util.concurrent.ExecutorService
@@ -17,24 +17,23 @@ abstract class BaseAdbAction : AnAction() {
 
     override fun actionPerformed(event: AnActionEvent) {
         EXECUTOR.submit {
-            val androidSdkPath = AndroidSdkUtils.getFirstAndroidModuleSdkData(event.project)?.path
+            val androidSdkPath = AndroidSdkUtils.findAdb(event.project).adbPath?.toString()
             if (androidSdkPath.isNullOrBlank()) {
                 event.project.showNotification("Android SDK path not found", NotificationType.ERROR)
             } else {
                 event.project?.let { project ->
-                    val platformTools = "$androidSdkPath$PLATFORM_TOOLS_PATH"
-                    process(project, platformTools)
+                    process(project, androidSdkPath)
                 }
             }
         }
     }
 
-    open fun process(project: Project, platformTools: String) {
-        val adbCommand = "adb ${getAdbCommand()}"
+    open fun process(project: Project, adbPath: String) {
+        val adbCommand = " ${getAdbCommand()}"
         if (AdbPluginSettingsState.instance.displayAdbNotification) {
             project.showNotification(adbCommand, NotificationType.INFORMATION, "commandId")
         }
-        val process = Runtime.getRuntime().exec(platformTools + adbCommand)
+        val process = Runtime.getRuntime().exec(adbPath + adbCommand)
         // logs
         var message = process.inputStream.bufferedReader().use(BufferedReader::readText)
         if (message.isNotEmpty()) {
@@ -53,7 +52,5 @@ abstract class BaseAdbAction : AnAction() {
 
         val EXECUTOR: ExecutorService =
             Executors.newCachedThreadPool(ThreadFactoryBuilder().setNameFormat("AdbWifi-%d").build())
-
-        const val PLATFORM_TOOLS_PATH = "/platform-tools/"
     }
 }
