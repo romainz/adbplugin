@@ -163,6 +163,15 @@
                         class="com.zanon.android.adb.action.connectivity.DisableMobileDataAction"
                         text="Disable Mobile Data"
                         description="Disable mobile data"/>
+                <separator/>
+                <action id="com.zanon.android.adb.action.device.AdbTalkbackEnableAction"
+                        class="com.zanon.android.adb.action.device.AdbTalkbackEnableAction"
+                        text="Enable Talkback"
+                        description="Enable talkback"/>
+                <action id="com.zanon.android.adb.action.device.AdbTalkbackDisableAction"
+                        class="com.zanon.android.adb.action.device.AdbTalkbackDisableAction"
+                        text="Disable Talkback"
+                        description="Disable Talkback"/>
             </group>
 
             <group id="DeeplinkMenu" text="Deeplink" popup="true">
