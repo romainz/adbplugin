@@ -200,18 +200,18 @@
                 <action id="com.zanon.android.adb.action.application.InstallAction"
                         class="com.zanon.android.adb.action.application.InstallAction"
                         text="Install"/>
+                <action id="com.zanon.android.adb.action.application.StartApplicationAction"
+                        class="com.zanon.android.adb.action.application.StartApplicationAction"
+                        text="Start"/>
+                <action id="com.zanon.android.adb.action.application.ForceStopAction"
+                        class="com.zanon.android.adb.action.application.ForceStopAction"
+                        text="Force Stop"/>
                 <action id="com.zanon.android.adb.action.application.WipeDataAction"
                         class="com.zanon.android.adb.action.application.WipeDataAction"
                         text="Wipe Data"/>
                 <action id="com.zanon.android.adb.action.application.UninstallAction"
                         class="com.zanon.android.adb.action.application.UninstallAction"
                         text="Uninstall"/>
-                <action id="com.zanon.android.adb.action.application.ForceStopAction"
-                        class="com.zanon.android.adb.action.application.ForceStopAction"
-                        text="Force Stop"/>
-                <action id="com.zanon.android.adb.action.application.StartApplicationAction"
-                        class="com.zanon.android.adb.action.application.StartApplicationAction"
-                        text="Start"/>
             </group>
 
         </group>
