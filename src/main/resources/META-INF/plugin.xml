@@ -46,6 +46,11 @@
     <change-notes>
         <![CDATA[
         <ul>
+            <li>1.4.1
+                <ul>
+                    <li>compatibility with Android Studio Jellyfish</li>
+                </ul>
+            </li>
             <li>1.4.0
                 <ul>
                     <li>compatibility with Android Studio Iguana</li>
@@ -72,40 +77,6 @@
                     <li>compatibility with Android Studio Eel</li>
                 </ul>
             </li>
-            <li>1.3.4
-                <ul>
-                    <li>compatibility with Android Studio Dolphin</li>
-                </ul>
-            </li>
-            <li>1.3.3
-                <ul>
-                    <li>add parameters to the install action (-r -t -d)</li>
-                </ul>
-            </li>
-            <li>1.3.2
-                <ul>
-                    <li>improve dialogs</li>
-                </ul>
-            </li>
-            <li>1.3
-                <ul>
-                    <li>fix connect button (thanks Max)</li>
-                    <li>input text - add new remote buttons for the player (thanks Lilian)</li>
-                </ul>
-            </li>
-            <li>1.2
-                <ul>
-                    <li>add install apk menu from file chooser</li>
-                </ul>
-            </li>
-            <li>1.1
-                <ul>
-                    <li>rename plugin to "ADB Tools" to easily find it</li>
-                    <li>move plugin settings into Preferences > Other Settings</li>
-                    <li>add numbers to the input text keyboard</li>
-                    <li>improve dialogs with a close button</li>
-                </ul>
-            </li>
         </ul>
         ]]>
     </change-notes>
@@ -120,7 +91,7 @@
     </extensions>
 
     <actions>
-        <group id="AdbMenu" text="ADB Tools" popup="false">
+        <group id="AdbMenu" text="ADB Tools" popup="true">
             <add-to-group group-id="MainMenu"/>
 
             <group id="DeviceMenu" text="Device" popup="true">
