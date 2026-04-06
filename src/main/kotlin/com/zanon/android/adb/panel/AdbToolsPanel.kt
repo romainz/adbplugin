@@ -1,4 +1,4 @@
-package com.zanon.android.adb.adbplugin.panel
+package com.zanon.android.adb.panel
 
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.project.Project
@@ -46,9 +46,9 @@ class AdbToolsPanel(
     }
 
     private fun createTabbedPane(): JBTabbedPane = JBTabbedPane().apply {
-        addTab("device", deviceTab)
-        addTab("deeplink", deeplinkTab)
-        addTab("application", applicationTab)
+        addTab("Device", deviceTab)
+        addTab("Deeplink", deeplinkTab)
+        addTab("Application", applicationTab)
     }
 
     private fun createTabPanel(title: String): JPanel = JBPanel<JBPanel<*>>(BorderLayout()).apply {

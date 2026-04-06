@@ -1,4 +1,4 @@
-package com.zanon.android.adb.adbplugin.panel
+package com.zanon.android.adb.panel
 
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
