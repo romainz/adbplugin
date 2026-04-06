@@ -1,7 +1,9 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
   id("java")
-  id("org.jetbrains.kotlin.jvm") version "1.9.0"
-  id("org.jetbrains.intellij") version "1.15.0"
+  id("org.jetbrains.kotlin.jvm") version "2.2.21"
+  id("org.jetbrains.intellij.platform") version "2.12.0"
 }
 
 group = "com.zanon.android.adb"
@@ -9,39 +11,46 @@ version = "1.0-SNAPSHOT"
 
 repositories {
   mavenCentral()
+  intellijPlatform {
+    defaultRepositories()
+  }
 }
 
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
-intellij {
-  version.set("2022.2.5")
-  type.set("IC") // Target IDE Platform
+dependencies {
+  intellijPlatform {
+    androidStudio("2025.3.2.6")
+    bundledPlugin("org.jetbrains.android")
+  }
+}
 
-  plugins.set(listOf("org.jetbrains.android"))
+intellijPlatform {
+  pluginConfiguration {
+    ideaVersion {
+      sinceBuild = "253"
+      untilBuild = provider { null }
+    }
+  }
+
+  signing {
+    certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
+    privateKey = providers.environmentVariable("PRIVATE_KEY")
+    password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
+  }
+
+  publishing {
+    token = providers.environmentVariable("PUBLISH_TOKEN")
+  }
+}
+
+kotlin {
+  compilerOptions {
+    jvmTarget.set(JvmTarget.JVM_17)
+  }
 }
 
 tasks {
-  // Set the JVM compatibility versions
   withType<JavaCompile> {
     sourceCompatibility = "17"
     targetCompatibility = "17"
-  }
-  withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
-  }
-
-  patchPluginXml {
-    sinceBuild.set("222")
-//    untilBuild.set("232.*")
-  }
-
-  signPlugin {
-    certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-    privateKey.set(System.getenv("PRIVATE_KEY"))
-    password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
-  }
-
-  publishPlugin {
-    token.set(System.getenv("PUBLISH_TOKEN"))
   }
 }
