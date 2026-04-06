@@ -87,7 +87,18 @@
   <depends>org.jetbrains.android</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <!-- Add your extensions here -->
+    <toolWindow
+            id="ADB Tools"
+            anchor="left"
+            factoryClass="com.zanon.android.adb.adbplugin.panel.AdbToolsToolWindowFactory"
+            icon="pluginIcon.svg"/>
+    <applicationConfigurable
+            parentId="other-setting"
+            instance="com.zanon.android.adb.setting.AdbPluginSettingsConfigurable"
+            id="org.intellij.sdk.settings.AppSettingsConfigurable"
+            displayName="ADB Tools"/>
+    <applicationService
+            serviceImplementation="com.zanon.android.adb.setting.AdbPluginSettingsState"/>
   </extensions>
 
   <actions>
@@ -204,15 +215,5 @@
     </group>
 
   </actions>
-
-  <extensions defaultExtensionNs="com.intellij">
-    <applicationConfigurable
-            parentId="other-setting"
-            instance="com.zanon.android.adb.setting.AdbPluginSettingsConfigurable"
-            id="org.intellij.sdk.settings.AppSettingsConfigurable"
-            displayName="ADB Tools"/>
-    <applicationService
-            serviceImplementation="com.zanon.android.adb.setting.AdbPluginSettingsState"/>
-  </extensions>
 
 </idea-plugin>
