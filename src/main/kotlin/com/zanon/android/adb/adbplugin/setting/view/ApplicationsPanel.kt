@@ -1,0 +1,70 @@
+package com.zanon.android.adb.setting.view
+
+import com.intellij.ui.ToolbarDecorator
+import com.zanon.android.adb.setting.model.Application
+import com.zanon.android.adb.util.tablemodel.ApplicationTableModel
+import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
+import java.awt.BorderLayout
+import javax.swing.JPanel
+import javax.swing.ListSelectionModel
+
+class ApplicationsPanel(
+    private val controller: Controller,
+    private val doubleClick: () -> Unit
+) : JPanel(BorderLayout()) {
+
+    private val tableModel: ApplicationTableModel = ApplicationTableModel()
+    private val applicationListComponent: JBTableDoubleClick = JBTableDoubleClick(tableModel)
+        .apply {
+            addRowListener(doubleClick = { doubleClick() })
+        }
+
+    fun getApplications(): List<Application> {
+        val list = mutableListOf<Application>()
+        for (row in 0 until applicationListComponent.rowCount) {
+            val name = applicationListComponent.model.getValueAt(row, 0).toString()
+            val id = applicationListComponent.model.getValueAt(row, 1).toString()
+            list.add(Application(name, id))
+        }
+        return list
+    }
+
+    fun addApplication(application: Application) {
+        tableModel.addApplication(application)
+    }
+
+    fun editApplication(application: Application) {
+        val selectedRowIndex = applicationListComponent.selectedRow
+        tableModel.editApplication(application, selectedRowIndex)
+    }
+
+    fun removeSelected() {
+        val selectedRowIndex = applicationListComponent.selectedRow
+        tableModel.removeApplication(selectedRowIndex)
+    }
+
+    fun getSelectedItem(): Application = tableModel.getApplication(applicationListComponent.selectedRow)
+
+    init {
+        applicationListComponent.apply {
+            setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
+            emptyText.text = "No application defined"
+        }
+        add(
+            ToolbarDecorator.createDecorator(applicationListComponent)
+                .setAddAction { controller.addApplication() }
+                .setEditAction { controller.editApplication() }
+                .setRemoveAction { controller.removeApplication() }
+                .disableUpDownActions().createPanel(), BorderLayout.CENTER
+        )
+    }
+
+    interface Controller {
+
+        fun editApplication()
+
+        fun addApplication()
+
+        fun removeApplication()
+    }
+}
