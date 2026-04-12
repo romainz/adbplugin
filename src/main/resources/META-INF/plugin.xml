@@ -90,8 +90,8 @@
     <toolWindow
             id="ADB Tools"
             anchor="left"
-            factoryClass="com.zanon.android.adb.adbplugin.panel.AdbToolsToolWindowFactory"
-            icon="pluginIcon.svg"/>
+            factoryClass="com.zanon.android.adb.panel.AdbToolsToolWindowFactory"
+            icon="/META-INF/pluginIcon.svg"/>
     <applicationConfigurable
             parentId="other-setting"
             instance="com.zanon.android.adb.setting.AdbPluginSettingsConfigurable"
