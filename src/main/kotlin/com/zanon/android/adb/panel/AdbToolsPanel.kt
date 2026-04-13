@@ -8,10 +8,11 @@ import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBPanel
 import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.components.panels.VerticalLayout
-import com.intellij.util.ui.WrapLayout
+import com.intellij.util.ui.JBUI
 import org.jetbrains.android.sdk.AndroidSdkUtils
 import java.awt.BorderLayout
-import java.awt.FlowLayout
+import java.awt.GridBagConstraints
+import java.awt.GridBagLayout
 import javax.swing.DefaultComboBoxModel
 import javax.swing.JButton
 import javax.swing.JPanel
@@ -54,13 +55,26 @@ class AdbToolsPanel(
 
     fun getSelectedDevice(): IDevice? = (deviceSelector.selectedItem as? DeviceItem)?.device
 
-    private fun createHeaderPanel(): JPanel = JPanel(WrapLayout(FlowLayout.LEFT)).apply {
-        add(JBLabel("Device"))
+    private fun createHeaderPanel(): JPanel = JPanel(GridBagLayout()).apply {
+        add(JBLabel("Device"), GridBagConstraints().apply {
+            gridx = 0
+            gridy = 0
+            insets = JBUI.insetsLeft(10)
+        })
         add(JButton(AllIcons.Actions.Refresh).apply {
             toolTipText = "Refresh devices"
             addActionListener { refreshDevices() }
+        }, GridBagConstraints().apply {
+            gridx = 1
+            gridy = 0
         })
-        add(deviceSelector)
+        add(deviceSelector, GridBagConstraints().apply {
+            gridx = 2
+            gridy = 0
+            weightx = 1.0
+            fill = GridBagConstraints.HORIZONTAL
+            insets = JBUI.insetsRight(10)
+        })
     }
 
     private fun createMainTabsPanel(): JBTabbedPane = JBTabbedPane().apply {

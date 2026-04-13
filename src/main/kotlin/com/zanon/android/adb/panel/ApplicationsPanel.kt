@@ -6,8 +6,6 @@ import com.zanon.android.adb.util.tablemodel.ApplicationTableModel
 import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
 import org.jdesktop.swingx.VerticalLayout
 import java.awt.BorderLayout
-import java.awt.Container
-import java.awt.Dimension
 import java.awt.FlowLayout
 import javax.swing.*
 
