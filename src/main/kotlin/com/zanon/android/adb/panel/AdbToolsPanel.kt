@@ -2,6 +2,7 @@ package com.zanon.android.adb.panel
 
 import com.android.ddmlib.IDevice
 import com.intellij.icons.AllIcons
+import com.intellij.notification.NotificationType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.ui.components.JBLabel
@@ -9,6 +10,8 @@ import com.intellij.ui.components.JBPanel
 import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.components.panels.VerticalLayout
 import com.intellij.util.ui.JBUI
+import com.zanon.android.adb.util.ShellReceiver
+import com.zanon.android.adb.util.showNotification
 import org.jetbrains.android.sdk.AndroidSdkUtils
 import java.awt.BorderLayout
 import java.awt.GridBagConstraints
@@ -27,9 +30,9 @@ class AdbToolsPanel(
 
     val deviceTab: JPanel = createTabPanel().apply {
         add(JBTabbedPane().apply {
-            addTab("Connect", ConnectPanel.build { })
-            addTab("Input Text", InputTextPanel.build { })
-            addTab("Remote", RemotePanel.build { })
+            addTab("Connect", ConnectPanel.build(::sendShellCommand))
+            addTab("Input Text", InputTextPanel.build(::sendShellCommand))
+            addTab("Remote", RemotePanel.build(::sendShellCommand))
         })
     }
     val deeplinkTab: JPanel = createTabPanel()
@@ -53,7 +56,14 @@ class AdbToolsPanel(
             ?.forEach(deviceSelectorModel::addElement)
     }
 
-    fun getSelectedDevice(): IDevice? = (deviceSelector.selectedItem as? DeviceItem)?.device
+    fun getSelectedDevice(): IDevice? {
+        return try {
+            (deviceSelector.selectedItem as? DeviceItem)?.device
+        } catch (_: Exception) {
+            project.showNotification("Please select an online device and try again.", NotificationType.ERROR)
+            null
+        }
+    }
 
     private fun createHeaderPanel(): JPanel = JPanel(GridBagLayout()).apply {
         add(JBLabel("Device"), GridBagConstraints().apply {
@@ -61,18 +71,19 @@ class AdbToolsPanel(
             gridy = 0
             insets = JBUI.insetsLeft(10)
         })
+        add(deviceSelector, GridBagConstraints().apply {
+            gridx = 1
+            gridy = 0
+            weightx = 1.0
+            fill = GridBagConstraints.HORIZONTAL
+            insets = JBUI.insets(0, 5)
+        })
         add(JButton(AllIcons.Actions.Refresh).apply {
             toolTipText = "Refresh devices"
             addActionListener { refreshDevices() }
         }, GridBagConstraints().apply {
-            gridx = 1
-            gridy = 0
-        })
-        add(deviceSelector, GridBagConstraints().apply {
             gridx = 2
             gridy = 0
-            weightx = 1.0
-            fill = GridBagConstraints.HORIZONTAL
             insets = JBUI.insetsRight(10)
         })
     }
@@ -97,6 +108,18 @@ class AdbToolsPanel(
                 append(device.serialNumber)
                 append(")")
             }
+        }
+    }
+
+    private fun sendShellCommand(shellCommand: String) {
+        val device: IDevice? = getSelectedDevice()
+        if (device == null || device.isOffline) {
+            project.showNotification("Please select an online device and try again.", NotificationType.ERROR)
+        } else {
+            device.executeShellCommand(
+                shellCommand,
+                ShellReceiver(project)
+            )
         }
     }
 }

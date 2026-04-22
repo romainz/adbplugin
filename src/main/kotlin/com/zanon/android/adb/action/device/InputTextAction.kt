@@ -100,7 +100,7 @@ private class InputTextSelectionDialog(
                 fill = GridBagConstraints.HORIZONTAL
                 weightx = 1.0
             }
-            textField.addActionListener{ actionEvent ->
+            textField.addActionListener { actionEvent ->
                 sendDeeplink(actionEvent.actionCommand)
             }
             add(textField, constraints2)
@@ -292,8 +292,18 @@ private class InputTextSelectionDialog(
                 }
                 mainPanel.add(this, constraints)
             }
+            // Home
+            JButton("Home").apply {
+                addActionListener { sendKeyEvent(KeyEvent.KEYCODE_HOME) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 1
+                    gridy = 3
+                }
+                mainPanel.add(this, constraints)
+            }
         }
-        val panelPlayer= JPanel(GridBagLayout()).also { mainPanel ->
+        val panelPlayer = JPanel(GridBagLayout()).also { mainPanel ->
             // Play
             JButton("Play").apply {
                 addActionListener { sendKeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY) }

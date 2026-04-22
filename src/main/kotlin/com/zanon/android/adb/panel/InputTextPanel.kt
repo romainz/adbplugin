@@ -10,7 +10,7 @@ import javax.swing.*
 
 object InputTextPanel {
 
-    fun build(sendDeeplink: (String) -> Unit): JPanel {
+    fun build(sendShellCommand: (String) -> Unit): JPanel {
         val textField = JTextField()
         val inputTexts = AdbPluginSettingsState.instance.inputTexts
         val tableModel = InputTextTableModel(inputTexts.toMutableList())
@@ -21,7 +21,7 @@ object InputTextPanel {
                     textField.text = inputTexts[row].text
                 },
                 doubleClick = { row ->
-                    inputTexts[row].text?.let { text -> sendDeeplink(text) }
+                    inputTexts[row].text?.let { text -> sendShellCommand(buildShellCommand(text)) }
                 }
             )
         }
@@ -38,7 +38,7 @@ object InputTextPanel {
                 weightx = 1.0
             }
             textField.addActionListener { actionEvent ->
-                sendDeeplink(actionEvent.actionCommand)
+                sendShellCommand(buildShellCommand(actionEvent.actionCommand))
             }
             add(textField, constraints2)
             // button
@@ -49,7 +49,7 @@ object InputTextPanel {
             val button = JButton("Send").apply {
                 addActionListener {
                     if (textField.text.isNotEmpty()) {
-                        sendDeeplink(textField.text)
+                        sendShellCommand(buildShellCommand(textField.text))
                     }
                 }
             }
@@ -71,4 +71,6 @@ object InputTextPanel {
             add(jScrollPane, constraints5)
         }
     }
+
+    private fun buildShellCommand(text: String): String = "input text $text"
 }

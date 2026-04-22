@@ -11,7 +11,7 @@ import javax.swing.*
 object ConnectPanel {
 
     fun build(
-        sendDeviceIp: (String) -> Unit
+        sendAdbCommand: (String) -> Unit
     ): JPanel {
 
         val textField = JTextField()
@@ -26,7 +26,7 @@ object ConnectPanel {
                 },
                 doubleClick = { row ->
                     devices[row].ip?.let { ip ->
-                        sendDeviceIp(ip)
+                        sendAdbCommand(buildAdbCommand(ip))
                     }
                 }
             )
@@ -44,7 +44,7 @@ object ConnectPanel {
                 weightx = 1.0
             }
             textField.addActionListener { actionEvent ->
-                sendDeviceIp(actionEvent.actionCommand)
+                sendAdbCommand(buildAdbCommand(actionEvent.actionCommand))
             }
             add(textField, constraints2)
             // button
@@ -55,7 +55,7 @@ object ConnectPanel {
             val button = JButton("Connect").apply {
                 addActionListener {
                     if (textField.text.isNotEmpty()) {
-                        sendDeviceIp(textField.text)
+                        sendAdbCommand(buildAdbCommand(textField.text))
                     }
                 }
             }
@@ -77,4 +77,6 @@ object ConnectPanel {
             add(jScrollPane, constraints5)
         }
     }
+
+    private fun buildAdbCommand(ipAddress: String): String = "adb connect $ipAddress"
 }
