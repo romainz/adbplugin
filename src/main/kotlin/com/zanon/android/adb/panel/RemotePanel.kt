@@ -5,6 +5,7 @@ import com.intellij.ui.components.panels.VerticalLayout
 import com.zanon.android.adb.android.KeyEvent
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
+import java.awt.GridLayout
 import javax.swing.JButton
 import javax.swing.JPanel
 import javax.swing.JSeparator
@@ -178,10 +179,10 @@ object RemotePanel {
                 mainPanel.add(this, constraints)
             }
         }
-        val panelPlayer = JPanel(GridBagLayout()).also { mainPanel ->
-            // Play
-            JButton("Play").apply {
-                addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_MEDIA_PLAY)) }
+        val panelVolume = JPanel(GridBagLayout()).also { mainPanel ->
+            // Volume+
+            JButton("Volume +").apply {
+                addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_VOLUME_UP)) }
                 val constraints = GridBagConstraints().apply {
                     weightx = 0.0
                     gridx = 0
@@ -189,12 +190,65 @@ object RemotePanel {
                 }
                 mainPanel.add(this, constraints)
             }
+            // Volume-
+            JButton("Volume -").apply {
+                addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_VOLUME_DOWN)) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 0
+                    gridy = 1
+                }
+                mainPanel.add(this, constraints)
+            }
+            // Channel+
+            JButton("Channel +").apply {
+                addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_CHANNEL_UP)) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 1
+                    gridy = 0
+                }
+                mainPanel.add(this, constraints)
+            }
+            // Channel-
+            JButton("Channel -").apply {
+                addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_CHANNEL_DOWN)) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 1
+                    gridy = 1
+                }
+                mainPanel.add(this, constraints)
+            }
+        }
+        val panelPlayer = JPanel(GridBagLayout()).also { mainPanel ->
             // Pause
             JButton("Pause").apply {
                 addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_MEDIA_PAUSE)) }
                 val constraints = GridBagConstraints().apply {
                     weightx = 0.0
+                    gridx = 0
+                    gridy = 0
+                }
+                mainPanel.add(this, constraints)
+            }
+            // Play
+            JButton("Play").apply {
+                addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_MEDIA_PLAY)) }
+                val constraints = GridBagConstraints().apply {
                     gridx = 1
+                    gridy = 0
+                    gridheight = 2
+                    fill = GridBagConstraints.VERTICAL
+                }
+                mainPanel.add(this, constraints)
+            }
+            // Stop
+            JButton("Stop").apply {
+                addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_MEDIA_STOP)) }
+                val constraints = GridBagConstraints().apply {
+                    weightx = 0.0
+                    gridx = 2
                     gridy = 0
                 }
                 mainPanel.add(this, constraints)
@@ -214,48 +268,67 @@ object RemotePanel {
                 addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD)) }
                 val constraints = GridBagConstraints().apply {
                     weightx = 0.0
-                    gridx = 1
+                    gridx = 2
                     gridy = 1
                 }
                 mainPanel.add(this, constraints)
             }
-            // Channel-
-            JButton("CH-").apply {
-                addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_CHANNEL_DOWN)) }
+            val subAudioPanel = JPanel(GridBagLayout()).also { subPanel ->
+                // Audio
+                JButton("Audio").apply {
+                    addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK)) }
+                    val constraints = GridBagConstraints().apply {
+                        weightx = 0.5
+                        gridx = 0
+                        gridy = 0
+                    }
+                    subPanel.add(this, constraints)
+                }
+                // Subtitles
+                JButton("Subtitles").apply {
+                    addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_CAPTIONS)) }
+                    val constraints = GridBagConstraints().apply {
+                        weightx = 0.5
+                        gridx = 1
+                        gridy = 0
+                    }
+                    subPanel.add(this, constraints)
+                }
+            }
+            val constraints = GridBagConstraints().apply {
+                gridy = 2
+                gridwidth = 3
+            }
+            mainPanel.add(subAudioPanel, constraints)
+        }
+        val panelOthers = JPanel(GridBagLayout()).also { mainPanel ->
+            // Settings
+            JButton("Settings").apply {
+                addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_SETTINGS)) }
                 val constraints = GridBagConstraints().apply {
                     weightx = 0.0
                     gridx = 0
-                    gridy = 2
-                }
-                mainPanel.add(this, constraints)
-            }
-            // Channel+
-            JButton("CH+").apply {
-                addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_CHANNEL_UP)) }
-                val constraints = GridBagConstraints().apply {
-                    weightx = 0.0
-                    gridx = 1
-                    gridy = 2
+                    gridy = 0
                 }
                 mainPanel.add(this, constraints)
             }
             // Guide TV
-            JButton("GUIDE").apply {
+            JButton("Guide").apply {
                 addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_GUIDE)) }
                 val constraints = GridBagConstraints().apply {
                     weightx = 0.0
-                    gridx = 0
-                    gridy = 3
+                    gridx = 1
+                    gridy = 0
                 }
                 mainPanel.add(this, constraints)
             }
             // Info
-            JButton("INFO").apply {
+            JButton("Info").apply {
                 addActionListener { sendShellCommand(buildShellCommand(KeyEvent.KEYCODE_INFO)) }
                 val constraints = GridBagConstraints().apply {
                     weightx = 0.0
-                    gridx = 1
-                    gridy = 3
+                    gridx = 2
+                    gridy = 0
                 }
                 mainPanel.add(this, constraints)
             }
@@ -265,7 +338,11 @@ object RemotePanel {
             add(JSeparator(SwingConstants.HORIZONTAL))
             add(panelNumbers)
             add(JSeparator(SwingConstants.HORIZONTAL))
+            add(panelVolume)
+            add(JSeparator(SwingConstants.HORIZONTAL))
             add(panelPlayer)
+            add(JSeparator(SwingConstants.HORIZONTAL))
+            add(panelOthers)
         }
     }
 
