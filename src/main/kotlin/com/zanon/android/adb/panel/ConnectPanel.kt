@@ -78,5 +78,5 @@ object ConnectPanel {
         }
     }
 
-    private fun buildAdbCommand(ipAddress: String): String = "adb connect $ipAddress"
+    private fun buildAdbCommand(ipAddress: String): String = "connect $ipAddress"
 }

@@ -10,6 +10,7 @@ import com.intellij.ui.components.JBPanel
 import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.components.panels.VerticalLayout
 import com.intellij.util.ui.JBUI
+import com.zanon.android.adb.util.AdbCommandDelegate
 import com.zanon.android.adb.util.ShellReceiver
 import com.zanon.android.adb.util.showNotification
 import org.jetbrains.android.sdk.AndroidSdkUtils
@@ -25,19 +26,20 @@ class AdbToolsPanel(
     private val project: Project
 ) : JPanel(VerticalLayout(5)) {
 
+    private val adbCommandDelegate: AdbCommandDelegate by lazy { AdbCommandDelegate() }
     private val deviceSelectorModel = DefaultComboBoxModel<DeviceItem>()
     private val deviceSelector = ComboBox(deviceSelectorModel)
 
     val deviceTab: JPanel = createTabPanel().apply {
         add(JBTabbedPane().apply {
-            addTab("Connect", ConnectPanel.build(::sendShellCommand))
+            addTab("Connect", ConnectPanel.build(::sendAdbCommand))
             addTab("Input Text", InputTextPanel.build(::sendShellCommand))
             addTab("Remote", RemotePanel.build(::sendShellCommand))
         })
     }
     val deeplinkTab: JPanel = createTabPanel()
     val applicationTab: JPanel = createTabPanel().apply {
-        add(ApplicationsPanel.build { string, bool -> })
+        add(ApplicationsPanel.build(::sendAdbCommand, ::sendShellCommand, ::showErrorNotification))
     }
 
     init {
@@ -111,15 +113,23 @@ class AdbToolsPanel(
         }
     }
 
-    private fun sendShellCommand(shellCommand: String) {
+    private fun showErrorNotification(message: String) {
+        project.showNotification(message, NotificationType.ERROR)
+    }
+
+    private fun sendShellCommand(command: String) {
         val device: IDevice? = getSelectedDevice()
         if (device == null || device.isOffline) {
-            project.showNotification("Please select an online device and try again.", NotificationType.ERROR)
+            showErrorNotification("Please select an online device and try again.")
         } else {
             device.executeShellCommand(
-                shellCommand,
+                command,
                 ShellReceiver(project)
             )
         }
+    }
+
+    private fun sendAdbCommand(command: String) {
+        adbCommandDelegate.sendAdbCommand(command, project)
     }
 }
