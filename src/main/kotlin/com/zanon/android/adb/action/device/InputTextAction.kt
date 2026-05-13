@@ -4,16 +4,17 @@ import com.android.ddmlib.IDevice
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.project.Project
 import com.intellij.ui.components.panels.VerticalLayout
+import com.intellij.util.ui.JBUI
 import com.zanon.android.adb.action.BaseShellAction
 import com.zanon.android.adb.android.KeyEvent
 import com.zanon.android.adb.setting.AdbPluginSettingsState
+import com.zanon.android.adb.util.Icons
 import com.zanon.android.adb.util.dialog.BaseCloseDialogWrapper
 import com.zanon.android.adb.util.tablemodel.InputTextTableModel
 import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
 import java.awt.Dimension
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
-import java.awt.Insets
 import javax.swing.*
 
 class InputTextAction : BaseShellAction() {
@@ -67,7 +68,7 @@ private class InputTextSelectionDialog(
             // buttons
             constraints = GridBagConstraints().apply {
                 weightx = 1.0
-                insets = Insets(0, 10, 0, 0)
+                insets = JBUI.insetsLeft(10)
             }
             add(createRightPanel(), constraints)
         }
@@ -121,7 +122,7 @@ private class InputTextSelectionDialog(
             val constraints4 = GridBagConstraints().apply {
                 fill = GridBagConstraints.HORIZONTAL
                 gridwidth = GridBagConstraints.REMAINDER
-                insets = Insets(5, 0, 5, 0)
+                insets = JBUI.insets(5, 0)
             }
             add(JSeparator(SwingConstants.HORIZONTAL), constraints4)
             // table
@@ -305,7 +306,7 @@ private class InputTextSelectionDialog(
         }
         val panelPlayer = JPanel(GridBagLayout()).also { mainPanel ->
             // Play
-            JButton("Play").apply {
+            JButton(Icons.PLAY).apply {
                 addActionListener { sendKeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY) }
                 val constraints = GridBagConstraints().apply {
                     weightx = 0.0
@@ -315,7 +316,7 @@ private class InputTextSelectionDialog(
                 mainPanel.add(this, constraints)
             }
             // Pause
-            JButton("Pause").apply {
+            JButton(Icons.PAUSE).apply {
                 addActionListener { sendKeyEvent(KeyEvent.KEYCODE_MEDIA_PAUSE) }
                 val constraints = GridBagConstraints().apply {
                     weightx = 0.0
@@ -325,7 +326,7 @@ private class InputTextSelectionDialog(
                 mainPanel.add(this, constraints)
             }
             // Rewind
-            JButton("RW").apply {
+            JButton(Icons.REWIND).apply {
                 addActionListener { sendKeyEvent(KeyEvent.KEYCODE_MEDIA_REWIND) }
                 val constraints = GridBagConstraints().apply {
                     weightx = 0.0
@@ -335,7 +336,7 @@ private class InputTextSelectionDialog(
                 mainPanel.add(this, constraints)
             }
             // Fast forward
-            JButton("FF").apply {
+            JButton(Icons.FAST_FORWARD).apply {
                 addActionListener { sendKeyEvent(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD) }
                 val constraints = GridBagConstraints().apply {
                     weightx = 0.0
