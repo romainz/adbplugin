@@ -37,7 +37,9 @@ class AdbToolsPanel(
             addTab("Remote", RemotePanel.build(::sendShellCommand))
         })
     }
-    val deeplinkTab: JPanel = createTabPanel()
+    val deeplinkTab: JPanel = createTabPanel().apply {
+        add(DeeplinkPanel.build(::sendShellCommand))
+    }
     val applicationTab: JPanel = createTabPanel().apply {
         add(ApplicationsPanel.build(::sendAdbCommand, ::sendShellCommand, ::showErrorNotification))
     }
@@ -96,9 +98,7 @@ class AdbToolsPanel(
         addTab("Application", applicationTab)
     }
 
-    private fun createTabPanel(): JPanel = JBPanel<JBPanel<*>>(BorderLayout()).apply {
-//        add(JBLabel(title), BorderLayout.NORTH)
-    }
+    private fun createTabPanel(): JPanel = JBPanel<JBPanel<*>>(BorderLayout())
 
     private data class DeviceItem(
         val device: IDevice

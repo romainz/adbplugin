@@ -48,15 +48,12 @@ object ApplicationsPanel {
             add(JLabel("Application id: "), BorderLayout.WEST)
             add(textFieldApplication, BorderLayout.CENTER)
         }
-        val contentPanel = JPanel().apply {
+        return JPanel().apply {
             layout = VerticalLayout(5)
             add(textFieldPanel)
             add(buttonsPanel)
             add(checkBox)
-        }
-        return JPanel(BorderLayout(0, 5)).apply {
-            add(contentPanel, BorderLayout.NORTH)
-            add(JScrollPane(table), BorderLayout.CENTER)
+            add(JScrollPane(table))
         }
     }
 
