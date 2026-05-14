@@ -1,6 +1,15 @@
 package com.zanon.android.adb.util
 
+import com.zanon.android.adb.android.Settings
+
 object ShellUtil {
+
+    const val DEEPLINK_ALL_APPS = "am start -a android.intent.action.ALL_APPS"
+    const val DEEPLINK_SETTINGS = "am start -a ${Settings.ACTION_SETTINGS}"
+    const val DEEPLINK_DEVELOPMENT_SETTINGS = "am start -a ${Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS}"
+    const val DEEPLINK_WIFI_SETTINGS = "am start -a ${Settings.ACTION_WIFI_SETTINGS}"
+    const val DEEPLINK_DEVICE_INFO_SETTINGS = "am start -a ${Settings.ACTION_WIFI_SETTINGS}"
+    const val DEEPLINK_LANGUAGE_SETTINGS = "am start -a ${Settings.ACTION_LOCALE_SETTINGS}"
 
     const val LAYOUT_BOUNDS_ENABLE = "setprop debug.layout true ; service call activity 1599295570"
     const val LAYOUT_BOUNDS_DISABLE = "setprop debug.layout false ; service call activity 1599295570"

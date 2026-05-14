@@ -35,7 +35,7 @@ class AdbToolsPanel(
             addTab("Connect", ConnectPanel.build(::sendAdbCommand))
             addTab("Input Text", InputTextPanel.build(::sendShellCommand))
             addTab("Remote", RemotePanel.build(::sendShellCommand))
-            addTab("Other", OtherPanel.build(::sendShellCommand))
+            addTab("Shortcuts", ShortcutsPanel.build(::sendShellCommand))
         })
     }
     val deeplinkTab: JPanel = createTabPanel().apply {
