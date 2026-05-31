@@ -1,13 +1,13 @@
 package com.zanon.android.adb.panel
 
-import com.intellij.util.ui.WrapLayout
+import com.intellij.ui.components.JBTabbedPane
 import com.zanon.android.adb.setting.AdbPluginSettingsState
-import com.zanon.android.adb.util.tablemodel.ApplicationTableModel
-import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
+import com.zanon.android.adb.setting.model.Application
 import org.jdesktop.swingx.VerticalLayout
 import java.awt.BorderLayout
-import java.awt.FlowLayout
+import java.awt.Component
 import javax.swing.*
+
 
 object ApplicationsPanel {
 
@@ -19,99 +19,63 @@ object ApplicationsPanel {
         sendShellCommand: (String) -> Unit,
         showErrorNotification: (String) -> Unit,
     ): JComponent {
-        // buttons
-        val buttonsPanel = JPanel(WrapLayout(FlowLayout.LEFT)).apply {
-//            add(createButton("Install", Action.INSTALL, sendAdbCommand, sendShellCommand, showErrorNotification))
-            add(createButton("Start", Action.START, sendAdbCommand, sendShellCommand, showErrorNotification))
-            add(createButton("Force Stop", Action.FORCE_STOP, sendAdbCommand, sendShellCommand, showErrorNotification))
-            add(createButton("Wipe Data", Action.WIPE_DATE, sendAdbCommand, sendShellCommand, showErrorNotification))
-            add(createButton("Uninstall", Action.UNINSTALL, sendAdbCommand, sendShellCommand, showErrorNotification))
-        }
         val applications = AdbPluginSettingsState.instance.applications
-        val tableModel = ApplicationTableModel(applications.toMutableList())
-        val table = JBTableDoubleClick(tableModel).apply {
-            rowHeight = 22
-            addRowListener(
-                simpleClick = { rowIndex ->
-                    textFieldApplication.text = applications[rowIndex].id
-                },
-                doubleClick = { _ ->
-                    // Nothing to do
-                }
-            )
+        val applicationItems = applications.map { ApplicationItem(it) }.toTypedArray()
+        val applicationComboBox = JComboBox(applicationItems).apply {
+            isEditable = true
+            renderer = ApplicationItemRenderer()
         }
-        checkBox.apply {
-            text = "Restart application"
-            isSelected = true
-        }
-        val textFieldPanel = JPanel(BorderLayout(5, 0)).apply {
+
+        fun getSelectedApplicationId(): String = applicationComboBox.selectedItem?.toString() ?: ""
+
+        val applicationPanel = JPanel(BorderLayout(5, 0)).apply {
             add(JLabel("Application id: "), BorderLayout.WEST)
-            add(textFieldApplication, BorderLayout.CENTER)
+            add(applicationComboBox, BorderLayout.CENTER)
         }
-        return JPanel().apply {
+
+        val contentPanel = JPanel().apply {
             layout = VerticalLayout(5)
-            add(textFieldPanel)
-            add(buttonsPanel)
-            add(checkBox)
-            add(JScrollPane(table))
+            add(applicationPanel)
+            add(JBTabbedPane().apply {
+                addTab(
+                    "Actions",
+                    ApplicationsActionsPanel.build(
+                        sendAdbCommand,
+                        sendShellCommand,
+                        showErrorNotification,
+                        ::getSelectedApplicationId
+                    )
+                )
+                addTab("Input text", InputTextPanel.build(sendShellCommand))
+                addTab("Deeplink", DeeplinkPanel.build(sendShellCommand))
+            })
+        }
+
+        return JPanel(BorderLayout(0, 5)).apply {
+            add(contentPanel, BorderLayout.NORTH)
         }
     }
 
-    private enum class Action {
-        /*INSTALL,*/ START, FORCE_STOP, WIPE_DATE, UNINSTALL
-    }
 
-    private fun createButton(
-        text: String,
-        action: Action,
-        sendAdbCommand: (String) -> Unit,
-        sendShellCommand: (String) -> Unit,
-        showErrorNotification: (String) -> Unit,
-    ): JButton =
-        JButton(text).apply {
-            addActionListener { sendCommand(action, sendAdbCommand, sendShellCommand, showErrorNotification) }
-        }
-
-    private fun sendCommand(
-        action: Action,
-        sendAdbCommand: (String) -> Unit,
-        sendShellCommand: (String) -> Unit,
-        showErrorNotification: (String) -> Unit
+    private data class ApplicationItem(
+        val application: Application
     ) {
-        if (textFieldApplication.text.isEmpty()) {
-            showErrorNotification("Please, select or type a package name before")
-            return
-        }
-        val application = textFieldApplication.text
-        val restartApplication = checkBox.isSelected
-        when (action) {
-//            Action.INSTALL -> {
-//                TODO()
-//            }
+        override fun toString(): String = application.id
+    }
 
-            Action.START -> {
-                sendShellCommand("monkey -p $application -c android.intent.category.LAUNCHER 1")
+    private class ApplicationItemRenderer : DefaultListCellRenderer() {
+        override fun getListCellRendererComponent(
+            list: JList<*>?,
+            value: Any?,
+            index: Int,
+            isSelected: Boolean,
+            cellHasFocus: Boolean
+        ): Component {
+            val component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
+            if (component is JLabel && value is ApplicationItem) {
+                component.text = "${value.application.name} (${value.application.id})"
             }
-
-            Action.FORCE_STOP -> {
-                if (restartApplication) {
-                    sendShellCommand("am force-stop $application && monkey -p $application -c android.intent.category.LAUNCHER 1")
-                } else {
-                    sendShellCommand("am force-stop $application")
-                }
-            }
-
-            Action.WIPE_DATE -> {
-                if (restartApplication) {
-                    sendShellCommand("pm clear $application && monkey -p $application -c android.intent.category.LAUNCHER 1")
-                } else {
-                    sendShellCommand("pm clear $application")
-                }
-            }
-
-            Action.UNINSTALL -> {
-                sendAdbCommand("uninstall $application")
-            }
+            return component
         }
     }
 }

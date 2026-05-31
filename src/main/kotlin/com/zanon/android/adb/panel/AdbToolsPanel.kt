@@ -33,13 +33,9 @@ class AdbToolsPanel(
     val deviceTab: JPanel = createTabPanel().apply {
         add(JBTabbedPane().apply {
             addTab("Connect", ConnectPanel.build(::sendAdbCommand))
-            addTab("Input Text", InputTextPanel.build(::sendShellCommand))
             addTab("Remote", RemotePanel.build(::sendShellCommand))
             addTab("Shortcuts", ShortcutsPanel.build(::sendShellCommand))
         })
-    }
-    val deeplinkTab: JPanel = createTabPanel().apply {
-        add(DeeplinkPanel.build(::sendShellCommand))
     }
     val applicationTab: JPanel = createTabPanel().apply {
         add(ApplicationsPanel.build(::sendAdbCommand, ::sendShellCommand, ::showErrorNotification))
@@ -95,7 +91,6 @@ class AdbToolsPanel(
 
     private fun createMainTabsPanel(): JBTabbedPane = JBTabbedPane().apply {
         addTab("Device", deviceTab)
-        addTab("Deeplink", deeplinkTab)
         addTab("Application", applicationTab)
     }
 
@@ -131,6 +126,11 @@ class AdbToolsPanel(
     }
 
     private fun sendAdbCommand(command: String) {
-        adbCommandDelegate.sendAdbCommand(command, project)
+        val device: IDevice? = getSelectedDevice()
+        when {
+            device != null && device.isOffline -> showErrorNotification("Please select an online device and try again.")
+            device == null -> adbCommandDelegate.sendAdbCommand(command, project)
+            else -> adbCommandDelegate.sendAdbCommand(" -s ${device.serialNumber} $command", project)
+        }
     }
 }

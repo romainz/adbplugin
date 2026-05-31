@@ -1,13 +1,10 @@
 package com.zanon.android.adb.panel
 
 import com.intellij.util.ui.JBUI
-import com.intellij.util.ui.WrapLayout
-import com.zanon.android.adb.android.Settings
 import com.zanon.android.adb.setting.AdbPluginSettingsState
 import com.zanon.android.adb.util.tablemodel.DeeplinkTableModel
 import com.zanon.android.adb.util.tablemodel.JBTableDoubleClick
 import org.jdesktop.swingx.VerticalLayout
-import java.awt.FlowLayout
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import javax.swing.*
@@ -32,31 +29,6 @@ object DeeplinkPanel {
             )
         }
         return JPanel(VerticalLayout(5)).apply {
-            // Buttons
-            add(JPanel(WrapLayout(FlowLayout.LEFT)).apply {
-                add(createButton("Settings", "am start -a ${Settings.ACTION_SETTINGS}", sendShellCommand))
-                add(
-                    createButton(
-                        "Development Settings",
-                        "am start -a ${Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS}",
-                        sendShellCommand
-                    )
-                )
-                add(createButton("Wifi Settings", "am start -a ${Settings.ACTION_WIFI_SETTINGS}", sendShellCommand))
-                add(
-                    createButton(
-                        "Device Information",
-                        "am start -a ${Settings.ACTION_DEVICE_INFO_SETTINGS}",
-                        sendShellCommand
-                    )
-                )
-                add(createButton("Language", "am start -a ${Settings.ACTION_LOCALE_SETTINGS}", sendShellCommand))
-                add(createButton("All Apps", "am start -a android.intent.action.ALL_APPS", sendShellCommand))
-            })
-
-            // Separator
-            add(JSeparator(SwingConstants.HORIZONTAL))
-
             // Custom deeplinks
             add(JPanel(GridBagLayout()).apply {
                 // label
