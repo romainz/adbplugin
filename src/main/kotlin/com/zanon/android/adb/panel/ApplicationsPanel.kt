@@ -9,16 +9,16 @@ import java.awt.Component
 import javax.swing.*
 
 
-object ApplicationsPanel {
+class ApplicationsPanel(
+    sendAdbCommand: (String) -> Unit,
+    sendShellCommand: (String) -> Unit,
+    showErrorNotification: (String) -> Unit,
+) : RefreshableJPanel(BorderLayout(0, 5)) {
 
-    private val textFieldApplication = JTextField()
-    private val checkBox = JCheckBox("Restart application")
+    private val inputTextsPanel = InputTextPanel(sendShellCommand)
+    private val deeplinkPanel = DeeplinkPanel(sendShellCommand)
 
-    fun build(
-        sendAdbCommand: (String) -> Unit,
-        sendShellCommand: (String) -> Unit,
-        showErrorNotification: (String) -> Unit,
-    ): JComponent {
+    init {
         val applications = AdbPluginSettingsState.instance.applications
         val applicationItems = applications.map { ApplicationItem(it) }.toTypedArray()
         val applicationComboBox = JComboBox(applicationItems).apply {
@@ -46,16 +46,18 @@ object ApplicationsPanel {
                         ::getSelectedApplicationId
                     )
                 )
-                addTab("Input text", InputTextPanel.build(sendShellCommand))
-                addTab("Deeplink", DeeplinkPanel.build(sendShellCommand))
+                addTab("Input text", inputTextsPanel)
+                addTab("Deeplink", deeplinkPanel)
             })
         }
 
-        return JPanel(BorderLayout(0, 5)).apply {
-            add(contentPanel, BorderLayout.NORTH)
-        }
+        add(contentPanel, BorderLayout.NORTH)
     }
 
+    override fun refresh() {
+        inputTextsPanel.refresh()
+        deeplinkPanel.refresh()
+    }
 
     private data class ApplicationItem(
         val application: Application

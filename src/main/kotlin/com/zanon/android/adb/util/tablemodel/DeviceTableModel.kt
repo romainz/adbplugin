@@ -46,4 +46,10 @@ class DeviceTableModel(
     }
 
     fun getDevice(rowIndex: Int): Device = devices[rowIndex]
+
+    fun setDevices(newDevices: List<Device>) {
+        devices.clear()
+        devices.addAll(newDevices.sortedBy { it.name?.lowercase() })
+        fireTableDataChanged()
+    }
 }

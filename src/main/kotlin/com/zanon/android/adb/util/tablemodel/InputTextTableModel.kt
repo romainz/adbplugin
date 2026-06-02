@@ -46,4 +46,10 @@ class InputTextTableModel(
     }
 
     fun get(rowIndex: Int): InputText = inputTexts[rowIndex]
+
+    fun setInputTexts(newInputTexts: List<InputText>) {
+        inputTexts.clear()
+        inputTexts.addAll(newInputTexts.sortedBy { it.name?.lowercase() })
+        fireTableDataChanged()
+    }
 }

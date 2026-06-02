@@ -20,7 +20,12 @@ class AdbToolsToolWindowFactory : ToolWindowFactory, DumbAware {
 
         toolWindow.apply {
             contentManager.addContent(content)
-            setTitleActions(listOf(OpenSettingsAction(project)))
+            setTitleActions(
+                listOf(
+                    RefreshPanelAction(adbToolsPanel),
+                    OpenSettingsAction(project)
+                )
+            )
         }
     }
 
@@ -33,6 +38,15 @@ class AdbToolsToolWindowFactory : ToolWindowFactory, DumbAware {
                 project,
                 AdbPluginSettingsConfigurable::class.java
             )
+        }
+    }
+
+    private class RefreshPanelAction(
+        private val panel: AdbToolsPanel
+    ) : AnAction("Refresh", "Refresh ADB Tools", AllIcons.Actions.Refresh) {
+
+        override fun actionPerformed(event: AnActionEvent) {
+            panel.refreshPlugin()
         }
     }
 }

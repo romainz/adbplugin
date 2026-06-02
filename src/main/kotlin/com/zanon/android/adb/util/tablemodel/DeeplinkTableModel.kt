@@ -46,4 +46,10 @@ class DeeplinkTableModel(
     }
 
     fun getDeeplink(rowIndex: Int): Deeplink = deeplinks[rowIndex]
+
+    fun setDeeplinks(newDeeplinks: List<Deeplink>) {
+        deeplinks.clear()
+        deeplinks.addAll(newDeeplinks.sortedBy { it.name?.lowercase() })
+        fireTableDataChanged()
+    }
 }

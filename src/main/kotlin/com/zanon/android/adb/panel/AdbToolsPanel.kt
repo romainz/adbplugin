@@ -30,15 +30,22 @@ class AdbToolsPanel(
     private val deviceSelectorModel = DefaultComboBoxModel<DeviceItem>()
     private val deviceSelector = ComboBox(deviceSelectorModel)
 
+    private val connectPanel = ConnectPanel(::sendAdbCommand)
+    private val applicationsPanel = ApplicationsPanel(
+        ::sendAdbCommand,
+        ::sendShellCommand,
+        ::showErrorNotification
+    )
+
     val deviceTab: JPanel = createTabPanel().apply {
         add(JBTabbedPane().apply {
-            addTab("Connect", ConnectPanel.build(::sendAdbCommand))
+            addTab("Connect", connectPanel)
             addTab("Remote", RemotePanel.build(::sendShellCommand))
             addTab("Shortcuts", ShortcutsPanel.build(::sendShellCommand))
         })
     }
     val applicationTab: JPanel = createTabPanel().apply {
-        add(ApplicationsPanel.build(::sendAdbCommand, ::sendShellCommand, ::showErrorNotification))
+        add(applicationsPanel)
     }
 
     init {
@@ -47,6 +54,11 @@ class AdbToolsPanel(
         add(createMainTabsPanel())
 
         refreshDevices()
+    }
+
+    fun refreshPlugin() {
+        connectPanel.refresh()
+        applicationsPanel.refresh()
     }
 
     private fun refreshDevices() {
