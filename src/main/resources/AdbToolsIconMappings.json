@@ -1,0 +1,12 @@
+{
+  "icons": {
+    "expui": {
+      "toolwindows": {
+        "adbTools.svg": "icons/toolwindows/adbTools.svg",
+        "adbTools_dark.svg": "icons/toolwindows/adbTools_dark.svg",
+        "adbTools@20x20.svg": "icons/toolwindows/adbTools.svg",
+        "adbTools@20x20_dark.svg": "icons/toolwindows/adbTools_dark.svg"
+      }
+    }
+  }
+}

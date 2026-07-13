@@ -87,11 +87,12 @@
   <depends>org.jetbrains.android</depends>
 
   <extensions defaultExtensionNs="com.intellij">
+    <iconMapper mappingFile="AdbToolsIconMappings.json"/>
     <toolWindow
             id="ADB Tools"
             anchor="left"
             factoryClass="com.zanon.android.adb.panel.AdbToolsToolWindowFactory"
-            icon="/META-INF/pluginIcon.svg"/>
+            icon="/icons/toolwindows/adbTools.svg"/>
     <applicationConfigurable
             parentId="other-setting"
             instance="com.zanon.android.adb.setting.AdbPluginSettingsConfigurable"
