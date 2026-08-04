@@ -113,12 +113,7 @@ class AdbToolsPanel(
         val device: IDevice
     ) {
         override fun toString(): String {
-            return buildString {
-                append(device.name)
-                append(" (")
-                append(device.serialNumber)
-                append(")")
-            }
+            return device.name
         }
     }
 
