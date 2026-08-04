@@ -3,7 +3,6 @@ package com.zanon.android.adb.panel
 import com.intellij.ui.components.JBTabbedPane
 import com.zanon.android.adb.setting.AdbPluginSettingsState
 import com.zanon.android.adb.setting.model.Application
-import org.jdesktop.swingx.VerticalLayout
 import java.awt.BorderLayout
 import java.awt.Component
 import javax.swing.*
@@ -33,25 +32,20 @@ class ApplicationsPanel(
             add(applicationComboBox, BorderLayout.CENTER)
         }
 
-        val contentPanel = JPanel().apply {
-            layout = VerticalLayout(5)
-            add(applicationPanel)
-            add(JBTabbedPane().apply {
-                addTab(
-                    "Actions",
-                    ApplicationsActionsPanel.build(
-                        sendAdbCommand,
-                        sendShellCommand,
-                        showErrorNotification,
-                        ::getSelectedApplicationId
-                    )
+        add(applicationPanel, BorderLayout.NORTH)
+        add(JBTabbedPane().apply {
+            addTab(
+                "Actions",
+                ApplicationsActionsPanel.build(
+                    sendAdbCommand,
+                    sendShellCommand,
+                    showErrorNotification,
+                    ::getSelectedApplicationId
                 )
-                addTab("Input text", inputTextsPanel)
-                addTab("Deeplink", deeplinkPanel)
-            })
-        }
-
-        add(contentPanel, BorderLayout.NORTH)
+            )
+            addTab("Input text", inputTextsPanel)
+            addTab("Deeplink", deeplinkPanel)
+        }, BorderLayout.CENTER)
     }
 
     override fun refresh() {

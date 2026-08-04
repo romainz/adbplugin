@@ -30,7 +30,7 @@ object ShortcutsPanel {
                 )
             }
 
-        return JPanel().apply {
+        val contentPanel = JPanel().apply {
             layout = VerticalLayout(5)
 
             add(createButtonsRow("Offline", ShellUtil.OFFLINE_ENABLE, ShellUtil.OFFLINE_DISABLE))
@@ -51,6 +51,15 @@ object ShortcutsPanel {
             add(createButton("Device Information", DEEPLINK_DEVICE_INFO_SETTINGS, sendShellCommand))
             add(createButton("Language", DEEPLINK_LANGUAGE_SETTINGS, sendShellCommand))
             add(createButton("All Apps", DEEPLINK_ALL_APPS, sendShellCommand))
+        }
+
+        return JPanel(BorderLayout()).apply {
+            add(JScrollPane(contentPanel).apply {
+                horizontalScrollBarPolicy = ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
+                verticalScrollBarPolicy = ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED
+                verticalScrollBar.unitIncrement = 16
+                border = null
+            }, BorderLayout.CENTER)
         }
     }
 

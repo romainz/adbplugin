@@ -4,11 +4,14 @@ import com.intellij.icons.AllIcons
 import com.intellij.ui.components.panels.VerticalLayout
 import com.zanon.android.adb.android.KeyEvent
 import com.zanon.android.adb.util.Icons
+import java.awt.BorderLayout
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import javax.swing.JButton
 import javax.swing.JPanel
+import javax.swing.JScrollPane
 import javax.swing.JSeparator
+import javax.swing.ScrollPaneConstants
 import javax.swing.SwingConstants
 
 object RemotePanel {
@@ -343,7 +346,7 @@ object RemotePanel {
                 mainPanel.add(this, constraints)
             }
         }
-        return JPanel(VerticalLayout(5)).apply {
+        val contentPanel = JPanel(VerticalLayout(5)).apply {
             add(panelDirections)
             add(JSeparator(SwingConstants.HORIZONTAL))
             add(panelNumbers)
@@ -353,6 +356,15 @@ object RemotePanel {
             add(panelPlayer)
             add(JSeparator(SwingConstants.HORIZONTAL))
             add(panelOthers)
+        }
+
+        return JPanel(BorderLayout()).apply {
+            add(JScrollPane(contentPanel).apply {
+                horizontalScrollBarPolicy = ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
+                verticalScrollBarPolicy = ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED
+                verticalScrollBar.unitIncrement = 16
+                border = null
+            }, BorderLayout.CENTER)
         }
     }
 

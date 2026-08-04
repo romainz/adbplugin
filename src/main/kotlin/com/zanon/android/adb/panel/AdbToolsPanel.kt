@@ -8,7 +8,6 @@ import com.intellij.openapi.ui.ComboBox
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBPanel
 import com.intellij.ui.components.JBTabbedPane
-import com.intellij.ui.components.panels.VerticalLayout
 import com.intellij.util.ui.JBUI
 import com.zanon.android.adb.util.AdbCommandDelegate
 import com.zanon.android.adb.util.ShellReceiver
@@ -24,7 +23,7 @@ import javax.swing.JSeparator
 
 class AdbToolsPanel(
     private val project: Project
-) : JPanel(VerticalLayout(5)) {
+) : JPanel(BorderLayout(0, 5)) {
 
     private val adbCommandDelegate: AdbCommandDelegate by lazy { AdbCommandDelegate() }
     private val deviceSelectorModel = DefaultComboBoxModel<DeviceItem>()
@@ -49,9 +48,11 @@ class AdbToolsPanel(
     }
 
     init {
-        add(createHeaderPanel())
-        add(JSeparator())
-        add(createMainTabsPanel())
+        add(JPanel(BorderLayout(0, 5)).apply {
+            add(createHeaderPanel(), BorderLayout.NORTH)
+            add(JSeparator(), BorderLayout.SOUTH)
+        }, BorderLayout.NORTH)
+        add(createMainTabsPanel(), BorderLayout.CENTER)
 
         refreshDevices()
     }

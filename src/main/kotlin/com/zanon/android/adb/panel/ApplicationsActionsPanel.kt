@@ -33,7 +33,7 @@ object ApplicationsActionsPanel {
             }
         }
 
-        return JPanel(VerticalLayout(5)).apply {
+        val contentPanel = JPanel(VerticalLayout(5)).apply {
             add(createButton("Install", Action.INSTALL))
             add(createButton("Start", Action.START))
             add(createButton("Uninstall", Action.UNINSTALL))
@@ -41,6 +41,13 @@ object ApplicationsActionsPanel {
             add(restartCheckBox)
             add(createButton("Force Stop", Action.FORCE_STOP))
             add(createButton("Wipe Data", Action.WIPE_DATE))
+        }
+
+        return JScrollPane(contentPanel).apply {
+            horizontalScrollBarPolicy = ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
+            verticalScrollBarPolicy = ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED
+            verticalScrollBar.unitIncrement = 16
+            border = null
         }
     }
 
