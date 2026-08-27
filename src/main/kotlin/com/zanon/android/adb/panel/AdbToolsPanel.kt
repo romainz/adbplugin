@@ -10,6 +10,7 @@ import com.intellij.ui.components.JBPanel
 import com.intellij.ui.components.JBTabbedPane
 import com.intellij.util.ui.JBUI
 import com.zanon.android.adb.util.AdbCommandDelegate
+import com.zanon.android.adb.util.Icons
 import com.zanon.android.adb.util.ShellReceiver
 import com.zanon.android.adb.util.showNotification
 import org.jetbrains.android.sdk.AndroidSdkUtils
@@ -90,13 +91,21 @@ class AdbToolsPanel(
             gridy = 0
             weightx = 1.0
             fill = GridBagConstraints.HORIZONTAL
-            insets = JBUI.insets(0, 5)
+            insets = JBUI.insetsLeft(5)
         })
         add(JButton(AllIcons.Actions.Refresh).apply {
             toolTipText = "Refresh devices"
             addActionListener { refreshDevices() }
         }, GridBagConstraints().apply {
             gridx = 2
+            gridy = 0
+            insets = JBUI.insets(0, 2)
+        })
+        add(JButton(Icons.DISCONNECT).apply {
+            toolTipText = "Disconnect device"
+            addActionListener { disconnect() }
+        }, GridBagConstraints().apply {
+            gridx = 3
             gridy = 0
             insets = JBUI.insetsRight(10)
         })
@@ -140,5 +149,21 @@ class AdbToolsPanel(
             device == null -> adbCommandDelegate.sendAdbCommand(command, project)
             else -> adbCommandDelegate.sendAdbCommand(" -s ${device.serialNumber} $command", project)
         }
+    }
+
+    private fun disconnect() {
+        val device: IDevice? = getSelectedDevice()
+        when {
+            device != null && device.isOffline -> showErrorNotification("Please select an online device and try again.")
+            device == null -> {
+                adbCommandDelegate.sendAdbCommand("disconnect", project)
+                project.showNotification("Devices disconnected", NotificationType.INFORMATION)
+            }
+            else -> {
+                adbCommandDelegate.sendAdbCommand("disconnect ${device.serialNumber}", project)
+                project.showNotification("Device disconnected", NotificationType.INFORMATION)
+            }
+        }
+
     }
 }

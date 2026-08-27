@@ -5,6 +5,8 @@ import javax.swing.Icon
 
 object Icons {
 
+    val DISCONNECT: Icon
+        get() = IconLoader.getIcon("/icons/disconnect.svg", javaClass)
     val FAST_FORWARD: Icon
         get() = IconLoader.getIcon("/icons/fast_forward.svg", javaClass)
     val PAUSE: Icon
